@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "vaicasar-app",
+    "slug": "vaicasar-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
