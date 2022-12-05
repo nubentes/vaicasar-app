@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     width: 303,
     fontSize: theme.input.text.fontSize,
     fontFamily: theme.input.text.fontFamily,
-    color: theme.colors.black,
+    color: colors.black,
   },
 });
 
-export default function Task({ navigation, route }: Props) {
+export function Task({ navigation, route }: Props) {
   const { list, setList } = useTask();
   const { task, type } = route.params;
 

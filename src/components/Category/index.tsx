@@ -1,7 +1,8 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
-import Label from '../Label';
+import colors from '../../styles/colors';
+import { Label } from '../Label';
 
 import { Card } from './styles';
 
@@ -35,10 +36,10 @@ export default function Category({ search }: ParamsProps) {
         )
         .map((item: ItemProps) => (
           <Card key={item.category}>
-            <Icon name={item.icon} size={24} color={theme.colors.gray} />
+            <Icon name={item.icon} size={24} color={colors.greys.dark} />
             <Label
               text={item.category}
-              style={{ fontSize: 16, color: theme.colors.black }}
+              style={{ fontSize: 16, color: colors.black }}
             />
           </Card>
         ))}

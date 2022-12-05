@@ -4,30 +4,31 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 
-import Home from '../screens/Home';
-import Task from '../screens/Task';
+import { Home } from '../screens/Home';
+import { Task } from '../screens/Task';
 import { TaskProps } from '../context/list';
 
-import Header from '../components/Header';
+import { Header } from '../components/Header';
+import { Stores } from '../screens/Stores';
 
 export type RootStackParamList = {
   navigate(screen: string, obj: { task: TaskProps; type: string }): unknown;
-  Main: undefined;
+  Principal: undefined;
   Tarefa: { task: TaskProps; type: string };
+  Loja: undefined;
 };
 
 export type Props = NativeStackScreenProps<RootStackParamList, 'Tarefa'>;
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
-export default function AppStackRoutes() {
+export function AppStackRoutes() {
   return (
     <Navigator>
       <Screen
-        name="Main"
+        name="Principal"
         component={Home}
         options={{
-          title: '',
           header: () => <Header />,
         }}
       />

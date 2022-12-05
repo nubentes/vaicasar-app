@@ -1,6 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
+import colors from '../../styles/colors';
 
 export const Container = styled.View`
   padding-top: ${RFValue(10)}px;
@@ -24,7 +25,7 @@ export const DataInput = styled(TextInput)`
   border-width: 1px;
   border-color: ${({ theme }) => theme.input.borderColor};
 
-  color: ${({ theme }) => theme.colors.black};
+  color: ${colors.black};
 
   font-size: ${({ theme }) => theme.input.text.fontSize}px;
   font-family: ${({ theme }) => theme.input.text.fontFamily};

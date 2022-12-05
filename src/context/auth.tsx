@@ -5,14 +5,17 @@ interface AuthProps {
 }
 
 export interface User {
-  user: string;
+  user: {
+    nome: string;
+    data: string;
+  };
   setUser: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AuthContext = createContext({} as User);
 
 function AuthProvider({ children }: AuthProps) {
-  const [user, setUser] = useState<string>('');
+  const [user, setUser] = useState<User>();
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

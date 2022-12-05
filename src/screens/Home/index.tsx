@@ -8,7 +8,7 @@ import { First } from '../First';
 
 import { Container } from './styles';
 
-export default function Home() {
+export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   // const { list } = useTask();
   const { user } = useAuth();

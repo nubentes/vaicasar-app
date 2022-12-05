@@ -10,7 +10,7 @@ import theme from '../../styles/theme';
 
 import { Container } from './styles';
 import icons from '../../utils/icons';
-import { useAuth } from '../../context/auth';
+import { useAuth, User } from '../../context/auth';
 
 const styles = StyleSheet.create({
   calendarButtonStyle: {
@@ -63,7 +63,12 @@ export function First() {
 
   const handleNavigation = () => {
     if (initialDate !== '00/00/0000') {
-      setUser('Gabriel Monteiro');
+      const updateUser: User = {
+        nome: 'Gabriel Monteiro',
+        data: initialDate,
+      };
+
+      setUser(updateUser);
     }
   };
 

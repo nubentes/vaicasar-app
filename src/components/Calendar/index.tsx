@@ -7,6 +7,7 @@ import {
 } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'styled-components';
+import colors from '../../styles/colors';
 
 import { ptBR } from './localeConfig';
 
@@ -40,12 +41,12 @@ function Calendar({ onDayPress, markedDates, initialDate }: CalendarProps) {
       renderArrow={direction => (
         <Icon
           size={24}
-          color={theme.colors.black}
+          color={colors.black}
           name={direction === 'left' ? 'chevron-left' : 'chevron-right'}
         />
       )}
       headerStyle={{
-        backgroundColor: theme.colors.white,
+        backgroundColor: colors.white,
         borderBottomWidth: 1,
         borderBottomColor: theme.calendar.lineColor,
         paddingBottom: 10,
@@ -54,11 +55,11 @@ function Calendar({ onDayPress, markedDates, initialDate }: CalendarProps) {
       theme={{
         textDayFontSize: 15,
         textMonthFontSize: 20,
-        monthTextColor: theme.colors.black,
+        monthTextColor: colors.black,
         arrowStyle: {
           marginHorizontal: -15,
         },
-        dayTextColor: theme.colors.black,
+        dayTextColor: colors.black,
         todayTextColor: theme.calendar.dayColor,
         todayBackgroundColor: theme.calendar.dotColor,
       }}

@@ -6,26 +6,25 @@ import { useAuth } from '../../context/auth';
 
 import { Title, Container, Button, Wrap } from './styles';
 
-export default function Header() {
+export function Header() {
   const navigation = useNavigation();
   const route = useRoute();
   const theme = useTheme();
   const { user } = useAuth();
 
-  // const user = null;
-  // const user = '';
-
   if (!user) {
-    return <></>;
+    // return;
   }
+
+  console.log(route.name);
 
   if (user) {
     return (
       <Container>
-        {route.name === 'Main' ? (
+        {route.name === 'Principal' ? (
           <>
             <Title>Bem vindo</Title>
-            <Title title={user}>{user}</Title>
+            <Title title={user.nome}>{user.nome}</Title>
           </>
         ) : (
           <Wrap>

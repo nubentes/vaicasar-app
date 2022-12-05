@@ -1,5 +1,5 @@
 import colors from './colors';
-import fonts from './fonts';
+import { FONTS, SIZES } from './fonts';
 
 export default {
   container: {
@@ -7,7 +7,7 @@ export default {
   },
 
   logo: {
-    fontFamily: fonts.family.GREAT_VIBES_REGULAR,
+    fontFamily: FONTS.GREAT_VIBES_REGULAR,
   },
 
   card: {
@@ -19,10 +19,10 @@ export default {
 
     text: {
       fontFamily: {
-        regular: fonts.family.MANROPE_REGULAR,
-        semi_bold: fonts.family.MANROPE_SEMI_BOLD,
-        bold: fonts.family.MANROPE_BOLD,
-        extra_bold: fonts.family.MANROPE_EXTRA_BOLD,
+        regular: FONTS.MANROPE_REGULAR,
+        semi_bold: FONTS.MANROPE_SEMI_BOLD,
+        bold: FONTS.MANROPE_BOLD,
+        extra_bold: FONTS.MANROPE_EXTRA_BOLD,
       },
 
       color: {
@@ -33,9 +33,9 @@ export default {
       },
 
       fontSize: {
-        bigTitle: fonts.size.VERY_LARGE,
-        title: fonts.size.MEDIUM,
-        subtitle: fonts.size.SMALL,
+        bigTitle: SIZES.VERY_LARGE,
+        title: SIZES.MEDIUM,
+        subtitle: SIZES.SMALL,
       },
     },
   },
@@ -51,15 +51,15 @@ export default {
     borderColor: colors.greys.light,
 
     placeholder: {
-      fontFamily: fonts.family.MANROPE_MEDIUM,
+      fontFamily: FONTS.MANROPE_MEDIUM,
       color: colors.greys.medium,
-      fontSize: fonts.size.MEDIUM,
+      fontSize: SIZES.MEDIUM,
     },
 
     text: {
-      fontFamily: fonts.family.MANROPE_SEMI_BOLD,
+      fontFamily: FONTS.MANROPE_SEMI_BOLD,
       color: colors.greys.dark,
-      fontSize: fonts.size.MEDIUM,
+      fontSize: SIZES.MEDIUM,
     },
   },
 
@@ -74,13 +74,13 @@ export default {
     },
 
     text: {
-      fontFamily: fonts.family.MANROPE_BOLD,
+      fontFamily: FONTS.MANROPE_BOLD,
       color: {
         primary: colors.white,
         secondary: colors.pink_red,
         terciary: colors.greys.medium,
       },
-      fontSize: fonts.size.MEDIUM,
+      fontSize: SIZES.MEDIUM,
     },
   },
 
@@ -92,14 +92,14 @@ export default {
     },
 
     text: {
-      fontWeight: fonts.family.MANROPE_SEMI_BOLD,
+      fontWeight: FONTS.MANROPE_SEMI_BOLD,
       color: colors.white,
-      fontSize: fonts.size.MEDIUM,
+      fontSize: SIZES.MEDIUM,
     },
   },
 
   icon: {
-    size: fonts.size.VERY_LARGE,
+    size: SIZES.VERY_LARGE,
 
     card: {
       primary: colors.white,
@@ -130,16 +130,5 @@ export default {
     button: {
       primary: colors.pink_red,
     },
-  },
-
-  colors: {
-    white: '#FFFFFF',
-    green: '#376400',
-    black: '#000000',
-    brown: '#664025',
-    red: '#A52A03',
-    gray: '#3f3f3f',
-    blue: '#124EC2',
-    active: '#00FF47',
   },
 };

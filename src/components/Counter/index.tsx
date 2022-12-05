@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useAuth } from '../../context/auth';
 import theme from '../../styles/theme';
 import icons from '../../utils/icons';
 import { Icon } from '../Icon';
@@ -19,6 +20,8 @@ const styles = StyleSheet.create({
 });
 
 export function Counter() {
+  const { user } = useAuth();
+
   return (
     <Container>
       <Icon name={icons.heart} color={theme.icon.card.primary} onlyIcon />
@@ -30,7 +33,7 @@ export function Counter() {
             { fontSize: theme.card.text.fontSize.bigTitle },
           ]}
         />
-        <Label text="24/12/2023" style={styles.textStyle} />
+        <Label text={user.data} style={styles.textStyle} />
         <Label text="dia do casamento" style={styles.textStyle} />
       </Wrap>
 

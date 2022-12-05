@@ -4,11 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from 'styled-components';
 import Icon from 'react-native-vector-icons/Feather';
 
-import Profile from '../screens/Profile';
-import Favorites from '../screens/Favorites';
-import AppStackRoutes from './app.stack.routes';
-import Stores from '../screens/Stores';
-import Header from '../components/Header';
+import { Profile } from '../screens/Profile';
+import { Favorites } from '../screens/Favorites';
+import { AppStackRoutes } from './app.stack.routes';
+import { Stores } from '../screens/Stores';
+import { Header } from '../components/Header';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -18,7 +18,6 @@ export function AppTabRoutes() {
   return (
     <Navigator
       screenOptions={{
-        headerShown: false,
         tabBarActiveTintColor: theme.icon.tabBar.active,
         tabBarInactiveTintColor: theme.icon.tabBar.inactive,
         tabBarShowLabel: false,
@@ -36,6 +35,7 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="home" size={theme.icon.size} color={color} />
           ),
+          headerShown: false,
         }}
       />
 
@@ -46,7 +46,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="search" size={theme.icon.size} color={color} />
           ),
-          title: '',
           header: () => <Header />,
         }}
       />
@@ -58,7 +57,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="heart" size={theme.icon.size} color={color} />
           ),
-          title: '',
           header: () => <Header />,
         }}
       />
@@ -69,7 +67,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="user" size={theme.icon.size} color={color} />
           ),
-          title: '',
           header: () => <Header />,
         }}
       />

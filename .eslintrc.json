@@ -26,6 +26,8 @@
       "prettier"
   ],
   "rules": {
+    "react/style-prop-object": "off",
+    "react/require-default-props": "off",
     "camelcase": "off",
     "no-case-declarations": "off",
     "import/prefer-default-export": "off",

@@ -1,14 +1,15 @@
 import styled from 'styled-components/native';
+import { StatusBar, Text } from 'react-native';
 import colors from '../../styles/colors';
-import fonts from '../../styles/fonts';
+import { FONTS, SIZES } from '../../styles/fonts';
 
 interface TitleProps {
-  title: string;
+  title?: string;
 }
 
 export const Container = styled.View`
   height: 80px;
-  padding: 24px;
+  padding: ${StatusBar.currentHeight}px;
   background-color: ${colors.white};
 `;
 
@@ -30,10 +31,9 @@ export const Button = styled.TouchableOpacity`
   margin-right: 16px;
 `;
 
-export const Title = styled.Text<TitleProps>`
+export const Title = styled(Text)<TitleProps>`
   font-family: ${({ title }) =>
-    title ? fonts.family.MANROPE_EXTRA_BOLD : fonts.family.MANROPE_REGULAR};
-  font-size: ${({ title }) =>
-    title ? fonts.size.VERY_LARGE : fonts.size.LARGE}px;
+    title ? FONTS.MANROPE_EXTRA_BOLD : FONTS.MANROPE_REGULAR};
+  font-size: ${({ title }) => (title ? SIZES.VERY_LARGE : SIZES.LARGE)}px;
   color: ${({ title }) => (title ? colors.greys.dark : colors.greys.regular)};
 `;
