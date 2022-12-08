@@ -47,7 +47,6 @@ export function Input({
       <DataInput
         value={value}
         autoCorrect={false}
-        autoCapitalize="none"
         onChangeText={(text: string) => onChangeText(text)}
         editable={editable}
         style={style}

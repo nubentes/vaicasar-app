@@ -7,4 +7,13 @@ export const Container = styled(View)`
   padding: 0px 24px;
 `;
 
-export const Card = styled(View)``;
+export const Loading = styled(View)`
+  flex: 1;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Card = styled(View)`
+  flex: 1;
+`;

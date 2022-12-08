@@ -26,7 +26,7 @@ export function Header({ title }: HeaderProps) {
         {route.name === 'Principal' ? (
           <Column>
             <Title>Bem vindo</Title>
-            <Title title={user.nome}>{user.nome}</Title>
+            <Title title="Gabriel Porto">Gabriel Porto</Title>
           </Column>
         ) : (
           <Wrap>

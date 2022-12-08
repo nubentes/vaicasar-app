@@ -44,12 +44,6 @@ export function Home() {
   const { user } = useAuth();
   const navigation = useNavigation<RootStackParamList>();
 
-  // useEffect(() => {
-  //   if (!list.dataPrevista) {
-  //     setModalVisible(true);
-  //   }
-  // }, []);
-
   let done = 0;
 
   if (list) {

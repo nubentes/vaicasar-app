@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Dimensions, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { customWidth } from '../../constants/measures';
+import { useTask } from '../../context/list';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import icons from '../../utils/icons';
@@ -15,6 +15,10 @@ interface DropDownProps {
     value: string;
   }[];
   setState: () => void;
+  placeHolder?: string;
+  searchable?: boolean;
+  onSelectItem: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 const styles = StyleSheet.create({
@@ -45,30 +49,44 @@ const styles = StyleSheet.create({
   },
 });
 
-export function DropDown({ state, setState }: DropDownProps) {
+export function DropDown({
+  state,
+  setState,
+  placeHolder,
+  searchable,
+  onSelectItem,
+  style,
+}: DropDownProps) {
   const [open, setOpen] = useState(false);
-  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { filterItem, setFilterItem } = useTask();
 
   return (
-    <Container>
+    <Container style={style}>
       <Icon
         name={icons.list}
         color={theme.icon.button.primary}
         style={styles.icon}
       />
       <DropDownPicker
+        loading={loading}
         open={open}
-        value={item}
+        value={filterItem}
         items={state}
         setOpen={setOpen}
-        setValue={setItem}
+        setValue={setFilterItem}
         setItems={setState}
         style={styles.topContainer}
-        placeholder="Loja"
+        placeholder={placeHolder}
         textStyle={theme.input.text}
         labelStyle={theme.input.text}
         dropDownContainerStyle={styles.bottomContainer}
         listMode="FLATLIST"
+        searchable={searchable}
+        onSelectItem={onSelectItem}
+        TickIconComponent={() => (
+          <Icon name="check" color={colors.green_cyan} />
+        )}
       />
     </Container>
   );

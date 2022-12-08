@@ -15,6 +15,7 @@ interface ButtonProps {
     color: string;
   };
   onPress?: () => void;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -24,6 +25,7 @@ export function Button({
   iconStyle,
   icon,
   onPress,
+  disabled,
 }: ButtonProps): JSX.Element {
   if (icon) {
     return (
@@ -37,7 +39,7 @@ export function Button({
   }
 
   return (
-    <Container onPress={onPress} style={buttonStyle} disabled={!onPress}>
+    <Container onPress={onPress} style={buttonStyle} disabled={disabled}>
       <Label text={text} style={textStyle} />
     </Container>
   );

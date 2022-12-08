@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { FavoriteProps, useTask } from '../../context/list';
+import { StoreProps, useTask } from '../../context/list';
 import colors from '../../styles/colors';
 import { FONTS } from '../../styles/fonts';
 import theme from '../../styles/theme';
@@ -13,7 +13,7 @@ import { Label } from '../Label';
 import { Container, Card, RatingContainer, Wrap, Button } from './styles';
 
 interface ParamsProps {
-  categoria: string;
+  descricao: string;
 }
 
 const styles = StyleSheet.create({
@@ -39,11 +39,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export function Results({ categoria }: ParamsProps) {
+export function Results() {
   const [search, setSearch] = useState('');
-  const { favorite, setFavorite } = useTask();
+  const [results, setResults] = useState([]);
+  const { stores, setStores } = useTask();
 
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { descricao } = route.params as ParamsProps;
 
   const storeRating = () => {
     const arr = [0, 1, 2, 3, 4, 5];
@@ -61,8 +65,8 @@ export function Results({ categoria }: ParamsProps) {
     );
   };
 
-  const handleFavorite = (item: FavoriteProps) => {
-    const temp = favorite.map(result => {
+  const handleFavorite = (item: StoreProps) => {
+    const temp = stores.map(result => {
       if (result === item) {
         result.favorite = !result.favorite;
         return result;
@@ -70,10 +74,10 @@ export function Results({ categoria }: ParamsProps) {
       return result;
     });
 
-    setFavorite(temp);
+    setStores(temp);
   };
 
-  const getIcon = (item: FavoriteProps) => {
+  const getIcon = (item: StoreProps) => {
     if (item.favorite) {
       return (
         <Icon
@@ -93,57 +97,63 @@ export function Results({ categoria }: ParamsProps) {
     );
   };
 
-  const filterByCategory = () => {
-    return (
-      <ScrollView>
-        <Header title="Buscar" />
+  const getResultBySelectedCategory = () => {
+    const temp = stores.filter(store => store.categoria === descricao);
 
-        <Container>
-          <Input
-            value={search}
-            onChangeText={setSearch}
-            editable
-            icon="search"
-            placeholder="Busca"
-          />
-
-          <>
-            <Label text="Resultados" bigLabel />
-
-            {favorite
-              .filter(
-                item =>
-                  item.nome.includes(search) ||
-                  item.nome.toLowerCase() === search.toLowerCase() ||
-                  search === '',
-              )
-              .map((item: FavoriteProps) => (
-                <Card
-                  key={item.nome}
-                  onPress={() => navigation.navigate('Loja', { item })}
-                >
-                  <Wrap>
-                    <Label text={item.nome} style={styles.storeTitle} />
-                    <Label
-                      text={item.descricao}
-                      style={styles.storeDescription}
-                    />
-                    <Label
-                      text={item.avaliacao.toFixed(1).toString()}
-                      style={styles.storeDescription}
-                    />
-                    {storeRating()}
-                  </Wrap>
-                  <Button onPress={() => handleFavorite(item)}>
-                    {getIcon(item)}
-                  </Button>
-                </Card>
-              ))}
-          </>
-        </Container>
-      </ScrollView>
-    );
+    setResults(temp);
   };
 
-  return <>{filterByCategory()}</>;
+  useEffect(() => {
+    getResultBySelectedCategory();
+  }, [stores]);
+
+  return (
+    <ScrollView>
+      <Header title="Buscar" />
+
+      <Container>
+        <Input
+          value={search}
+          onChangeText={setSearch}
+          editable
+          icon="search"
+          placeholder="Busca"
+        />
+
+        <>
+          <Label text="Resultados" bigLabel />
+
+          {results
+            .filter(
+              item =>
+                item.nome.includes(search) ||
+                item.nome.toLowerCase() === search.toLowerCase() ||
+                search === '',
+            )
+            .map((item: StoreProps) => (
+              <Card
+                key={item.nome}
+                onPress={() => navigation.navigate('Loja', { item })}
+              >
+                <Wrap>
+                  <Label text={item.nome} style={styles.storeTitle} />
+                  <Label
+                    text={item.descricao}
+                    style={styles.storeDescription}
+                  />
+                  <Label
+                    text={item.avaliacao.toFixed(1).toString()}
+                    style={styles.storeDescription}
+                  />
+                  {storeRating()}
+                </Wrap>
+                <Button onPress={() => handleFavorite(item)}>
+                  {getIcon(item)}
+                </Button>
+              </Card>
+            ))}
+        </>
+      </Container>
+    </ScrollView>
+  );
 }

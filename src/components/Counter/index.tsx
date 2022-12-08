@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useAuth } from '../../context/auth';
+import { useTask } from '../../context/list';
 import theme from '../../styles/theme';
 import icons from '../../utils/icons';
 import { Icon } from '../Icon';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 export function Counter() {
-  const { user } = useAuth();
+  const { list } = useTask();
 
   return (
     <Container>
@@ -33,7 +33,7 @@ export function Counter() {
             { fontSize: theme.card.text.fontSize.bigTitle },
           ]}
         />
-        <Label text={user.data} style={styles.textStyle} />
+        <Label text={list.dataPrevista} style={styles.textStyle} />
         <Label text="dia do casamento" style={styles.textStyle} />
       </Wrap>
 

@@ -5,14 +5,14 @@ import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { Icon } from '../../components/Icon';
 import { Label } from '../../components/Label';
-import { FavoriteProps } from '../../context/list';
+import { StoreProps } from '../../context/list';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
 
 import { Container, Image, Info, Rating, SubHeader, Wrap } from './styles';
 
 interface LojaProps {
-  item: FavoriteProps;
+  item: StoreProps;
 }
 
 const styles = StyleSheet.create({

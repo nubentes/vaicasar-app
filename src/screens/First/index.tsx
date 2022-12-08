@@ -2,15 +2,17 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
-import { useNavigation } from '@react-navigation/native';
 import { Calendar, DayProps } from '../../components/Calendar';
 import { Button } from '../../components/Button';
 import { Label } from '../../components/Label';
 import theme from '../../styles/theme';
 
-import { Container } from './styles';
+import { ButtonStatus, Container } from './styles';
 import icons from '../../utils/icons';
-import { useAuth, User } from '../../context/auth';
+import { useAuth } from '../../context/auth';
+import { DTOUsuario } from '../../dtos/usuario';
+import { DTOCronograma } from '../../dtos/cronograma';
+import { useTask } from '../../context/list';
 
 const styles = StyleSheet.create({
   calendarButtonStyle: {
@@ -51,8 +53,10 @@ const styles = StyleSheet.create({
 export function First() {
   const [initialDate, setInitialDate] = useState('00/00/0000');
   const [modalVisible, setModalVisible] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+
   const { setUser } = useAuth();
-  const navigation = useNavigation();
+  const { setList } = useTask();
 
   const onDateChange = (date: DayProps) => {
     const formatted = moment(date.dateString).format('L');
@@ -61,16 +65,24 @@ export function First() {
 
     setModalVisible(false);
     setInitialDate(date.dateString);
+    setIsDisabled(false);
   };
 
   const handleNavigation = () => {
     if (initialDate !== '00/00/0000') {
-      const updateUser: User = {
-        nome: 'Gabriel Monteiro',
-        data: initialDate,
+      const updateUser: DTOUsuario = {
+        email: 'gmporto@email.com',
+        senha: '1234',
+      };
+
+      const plan: DTOCronograma = {
+        id_cronograma: 1,
+        dataPrevista: initialDate,
+        tarefas: [],
       };
 
       setUser(updateUser);
+      setList(plan);
     }
   };
 
@@ -105,12 +117,16 @@ export function First() {
         />
       </Modal>
 
-      <Button
-        text="Continuar"
-        buttonStyle={styles.continueButtonStyle}
-        textStyle={styles.continueButtonTextStyle}
-        onPress={() => handleNavigation()}
-      />
+      <ButtonStatus disabled={isDisabled}>
+        <Button
+          text="Continuar"
+          buttonStyle={styles.continueButtonStyle}
+          textStyle={styles.continueButtonTextStyle}
+          onPress={() => handleNavigation()}
+          disabled={isDisabled}
+          // disabled={initialDate !== '00/00/0000'}
+        />
+      </ButtonStatus>
     </Container>
   );
 }

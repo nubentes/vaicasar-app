@@ -1,21 +1,19 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { DTOUsuario } from '../dtos/usuario';
 
-interface AuthProps {
+interface ProviderProps {
   children: ReactNode;
 }
 
-export interface User {
-  user: {
-    nome: string;
-    data: string;
-  };
-  setUser: React.Dispatch<React.SetStateAction<string>>;
+interface AuthProps {
+  user: DTOUsuario;
+  setUser: React.Dispatch<React.SetStateAction<DTOUsuario>>;
 }
 
-const AuthContext = createContext({} as User);
+const AuthContext = createContext({} as AuthProps);
 
-function AuthProvider({ children }: AuthProps) {
-  const [user, setUser] = useState<User>();
+function AuthProvider({ children }: ProviderProps) {
+  const [user, setUser] = useState<DTOUsuario>();
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

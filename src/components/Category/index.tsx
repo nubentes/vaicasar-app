@@ -1,20 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useTask } from '../../context/list';
+import { DTOCategoria } from '../../dtos/categoria';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
 import { Label } from '../Label';
 
 import { Card } from './styles';
 
-interface ItemProps {
-  icon: string;
-  categoria: string;
-}
-
 interface ParamsProps {
   search: string;
-  categories: ItemProps[];
 }
 
 const styles = StyleSheet.create({
@@ -25,13 +21,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export function Category({ search, categories }: ParamsProps) {
+export function Category({ search }: ParamsProps) {
   const navigation = useNavigation();
 
-  const handleCategory = (item: ItemProps) => {
-    const { categoria } = item;
+  const { categories } = useTask();
 
-    navigation.navigate('Resultados', { categoria });
+  const handleCategory = (item: DTOCategoria) => {
+    const { descricao } = item;
+
+    navigation.navigate('Resultados', { descricao });
   };
 
   return (
@@ -39,16 +37,18 @@ export function Category({ search, categories }: ParamsProps) {
       {categories
         .filter(
           item =>
-            item.categoria.includes(search) ||
-            item.categoria.toLowerCase() === search.toLowerCase() ||
+            item.descricao.includes(search) ||
+            item.descricao.toLowerCase() === search.toLowerCase() ||
             search === '',
         )
-        .map((item: ItemProps) => (
-          <Card key={item.categoria} onPress={() => handleCategory(item)}>
-            <Label text={item.categoria} style={styles.text} />
-            <Label text="16 resultados" style={styles.text} />
-          </Card>
-        ))}
+        .map((item: DTOCategoria) => {
+          return item.id !== 0 ? (
+            <Card key={item.id} onPress={() => handleCategory(item)}>
+              <Label text={item.descricao} style={styles.text} />
+              <Label text="16 resultados" style={styles.text} />
+            </Card>
+          ) : null;
+        })}
     </>
   );
 }

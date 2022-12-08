@@ -208,7 +208,11 @@ export function Task({ navigation, route }: Props) {
             />
           </Modal>
 
-          <DropDown state={store} setState={() => setStore} />
+          <DropDown
+            state={store}
+            setState={() => setStore}
+            placeHolder="Loja"
+          />
 
           <Input
             value={value.toString()}
