@@ -1,32 +1,24 @@
-import { TouchableOpacity, View } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled(View)`
   flex: 1;
 
+  padding: 24px;
+`;
+
+export const Wrap = styled(View)`
+  flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  background-color: red;
 `;
 
 export const Title = styled(View)`
-  width: ${RFValue(327)}px;
-  height: ${RFValue(56)}px;
+  width: 90%;
+  height: 45%;
 
   flex-direction: row;
 
   align-items: center;
   justify-content: space-between;
-
-  margin-bottom: 24px;
-`;
-
-export const Button = styled(TouchableOpacity)`
-  width: 327px;
-  height: 56px;
-
-  border-radius: 16px;
-
-  align-items: center;
-  justify-content: center;
 `;

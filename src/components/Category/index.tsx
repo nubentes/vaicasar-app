@@ -1,46 +1,52 @@
-import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useTheme } from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import colors from '../../styles/colors';
+import { FONTS, SIZES } from '../../styles/fonts';
 import { Label } from '../Label';
 
 import { Card } from './styles';
 
 interface ItemProps {
   icon: string;
-  category: string;
+  categoria: string;
 }
 
 interface ParamsProps {
   search: string;
+  categories: ItemProps[];
 }
 
-export default function Category({ search }: ParamsProps) {
-  const theme = useTheme();
+const styles = StyleSheet.create({
+  text: {
+    fontSize: SIZES.MEDIUM,
+    fontFamily: FONTS.MANROPE_SEMI_BOLD,
+    color: colors.white,
+  },
+});
 
-  const categories: ItemProps[] = [
-    { icon: 'silverware-fork-knife', category: 'Buffet' },
-    { icon: 'silverware-fork-knife', category: 'Cerimonia' },
-    { icon: 'silverware-fork-knife', category: 'DJ' },
-    { icon: 'silverware-fork-knife', category: 'Decoracao' },
-  ];
+export function Category({ search, categories }: ParamsProps) {
+  const navigation = useNavigation();
+
+  const handleCategory = (item: ItemProps) => {
+    const { categoria } = item;
+
+    navigation.navigate('Resultados', { categoria });
+  };
 
   return (
     <>
       {categories
         .filter(
           item =>
-            item.category.includes(search) ||
-            item.category.toLowerCase() === search.toLowerCase() ||
+            item.categoria.includes(search) ||
+            item.categoria.toLowerCase() === search.toLowerCase() ||
             search === '',
         )
         .map((item: ItemProps) => (
-          <Card key={item.category}>
-            <Icon name={item.icon} size={24} color={colors.greys.dark} />
-            <Label
-              text={item.category}
-              style={{ fontSize: 16, color: colors.black }}
-            />
+          <Card key={item.categoria} onPress={() => handleCategory(item)}>
+            <Label text={item.categoria} style={styles.text} />
+            <Label text="16 resultados" style={styles.text} />
           </Card>
         ))}
     </>

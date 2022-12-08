@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { customWidth } from '../../constants/measures';
+import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import icons from '../../utils/icons';
 import { Icon } from '../Icon';
@@ -17,14 +19,15 @@ interface DropDownProps {
 
 const styles = StyleSheet.create({
   topContainer: {
-    borderWidth: 0.001,
+    borderWidth: 1,
+    borderColor: colors.greys.light,
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
+    borderLeftWidth: 0,
     backgroundColor: theme.button.background.secondary,
     height: 56,
-    width: 303,
     zIndex: 100,
   },
   bottomContainer: {
@@ -34,6 +37,12 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 16,
     backgroundColor: theme.button.background.secondary,
   },
+  icon: {
+    borderWidth: 1,
+    borderColor: theme.button.border.primary,
+    borderRightWidth: 0,
+    height: 56,
+  },
 });
 
 export function DropDown({ state, setState }: DropDownProps) {
@@ -42,7 +51,11 @@ export function DropDown({ state, setState }: DropDownProps) {
 
   return (
     <Container>
-      <Icon name={icons.list} color={theme.icon.button.primary} />
+      <Icon
+        name={icons.list}
+        color={theme.icon.button.primary}
+        style={styles.icon}
+      />
       <DropDownPicker
         open={open}
         value={item}

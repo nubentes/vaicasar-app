@@ -5,16 +5,15 @@ import colors from '../../styles/colors';
 
 export const Container = styled.View`
   padding-top: ${RFValue(10)}px;
-
   flex-direction: row;
 
-  align-items: center;
+  padding: 24px;
 
-  padding: ${RFValue(24)}px;
+  align-self: center;
 `;
 
 export const DataInput = styled(TextInput)`
-  width: ${RFValue(303)}px;
+  width: 100%;
   height: ${RFValue(56)}px;
 
   background: ${({ theme }) => theme.input.background};
@@ -23,6 +22,7 @@ export const DataInput = styled(TextInput)`
   border-top-right-radius: 16px;
 
   border-width: 1px;
+  border-left-width: 0px;
   border-color: ${({ theme }) => theme.input.borderColor};
 
   color: ${colors.black};

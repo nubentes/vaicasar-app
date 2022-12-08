@@ -12,7 +12,5 @@ export const Info = styled.View`
 
   margin-top: 20px;
 
-  align-items: center;
-
-  padding: 24px;
+  padding: 0px 24px;
 `;

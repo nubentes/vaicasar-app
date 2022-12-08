@@ -35,14 +35,16 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
   },
 
-  saveButtonStyle: {
+  continueButtonStyle: {
     marginTop: 15,
   },
 
-  saveButtonTextStyle: {
+  continueButtonTextStyle: {
     color: theme.button.text.color.primary,
     fontSize: theme.button.text.fontSize,
     fontFamily: theme.button.text.fontFamily,
+    width: '100%',
+    textAlign: 'center',
   },
 });
 
@@ -105,8 +107,8 @@ export function First() {
 
       <Button
         text="Continuar"
-        buttonStyle={styles.saveButtonStyle}
-        textStyle={styles.saveButtonTextStyle}
+        buttonStyle={styles.continueButtonStyle}
+        textStyle={styles.continueButtonTextStyle}
         onPress={() => handleNavigation()}
       />
     </Container>

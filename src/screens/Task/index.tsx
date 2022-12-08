@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 
@@ -19,12 +19,20 @@ import icons from '../../utils/icons';
 const styles = StyleSheet.create({
   button: {
     margin: 24,
+    borderWidth: 1,
+    borderColor: theme.input.borderColor,
+    backgroundColor: theme.input.background,
+    justifyContent: 'space-between',
   },
   textStyle: {
-    width: 303,
     fontSize: theme.input.text.fontSize,
     fontFamily: theme.input.text.fontFamily,
     color: colors.black,
+  },
+  icon: {
+    borderWidth: 1,
+    borderColor: theme.button.border.primary,
+    borderRightWidth: 0,
   },
 });
 
@@ -140,8 +148,6 @@ export function Task({ navigation, route }: Props) {
     .reverse()
     .join('-');
 
-  const customWidth = Dimensions.get('screen').width - 48;
-
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -152,16 +158,15 @@ export function Task({ navigation, route }: Props) {
             editable
             icon="italic"
             placeholder="Título"
+            placeholderTextColor={colors.black}
           />
 
           <Button
-            buttonStyle={[
-              styles.button,
-              { backgroundColor: theme.input.background, width: customWidth },
-            ]}
+            buttonStyle={styles.button}
             text={scheduledDate.dateString || 'Data prevista'}
             textStyle={styles.textStyle}
             icon={{ name: icons.calendar, color: theme.icon.button.primary }}
+            iconStyle={styles.icon}
             onPress={() => setModalVisible(true)}
           />
 
@@ -173,6 +178,7 @@ export function Task({ navigation, route }: Props) {
             text="Data conclusão"
             textStyle={styles.textStyle}
             icon={{ name: icons.calendar, color: theme.icon.button.primary }}
+            iconStyle={styles.icon}
           />
 
           <Modal
@@ -210,6 +216,7 @@ export function Task({ navigation, route }: Props) {
             editable
             icon="dollar-sign"
             placeholder="R$ 0,00"
+            placeholderTextColor={colors.black}
           />
 
           <Input
@@ -218,14 +225,22 @@ export function Task({ navigation, route }: Props) {
             editable
             icon="align-justify"
             placeholder="Descrição"
+            placeholderTextColor={colors.black}
           />
 
           <Button
-            buttonStyle={[styles.button]}
+            buttonStyle={[
+              styles.button,
+              { backgroundColor: theme.button.background.primary },
+            ]}
             text="Salvar"
             textStyle={[
               styles.textStyle,
-              { textAlign: 'center', color: theme.button.text.color.primary },
+              {
+                textAlign: 'center',
+                color: theme.button.text.color.primary,
+                width: '100%',
+              },
             ]}
             onPress={() => handleSave()}
           />

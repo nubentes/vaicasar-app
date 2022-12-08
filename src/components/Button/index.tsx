@@ -8,7 +8,7 @@ import { Container, Content } from './styles';
 interface ButtonProps {
   buttonStyle?: ViewStyle | ViewStyle[];
   text: string;
-  textStyle: TextStyle | TextStyle[];
+  textStyle?: TextStyle | TextStyle[];
   iconStyle?: ViewStyle;
   icon?: {
     name: string;
@@ -25,16 +25,20 @@ export function Button({
   icon,
   onPress,
 }: ButtonProps): JSX.Element {
-  return (
-    <Container onPress={onPress} style={buttonStyle} disabled={!onPress}>
-      {icon ? (
+  if (icon) {
+    return (
+      <Container onPress={onPress} style={buttonStyle} disabled={!onPress}>
         <Content>
           <Icon name={icon.name} color={icon.color} style={iconStyle} />
           <Label text={text} style={textStyle} />
         </Content>
-      ) : (
-        <Label text={text} style={textStyle} />
-      )}
+      </Container>
+    );
+  }
+
+  return (
+    <Container onPress={onPress} style={buttonStyle} disabled={!onPress}>
+      <Label text={text} style={textStyle} />
     </Container>
   );
 }

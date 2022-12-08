@@ -4,9 +4,13 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useTheme } from 'styled-components';
 import { useAuth } from '../../context/auth';
 
-import { Title, Container, Button, Wrap } from './styles';
+import { Title, Container, Button, Wrap, Column } from './styles';
 
-export function Header() {
+interface HeaderProps {
+  title?: string;
+}
+
+export function Header({ title }: HeaderProps) {
   const navigation = useNavigation();
   const route = useRoute();
   const theme = useTheme();
@@ -16,16 +20,14 @@ export function Header() {
     // return;
   }
 
-  console.log(route.name);
-
   if (user) {
     return (
       <Container>
         {route.name === 'Principal' ? (
-          <>
+          <Column>
             <Title>Bem vindo</Title>
             <Title title={user.nome}>{user.nome}</Title>
-          </>
+          </Column>
         ) : (
           <Wrap>
             <Button onPress={() => navigation.goBack()}>
@@ -35,7 +37,7 @@ export function Header() {
                 color={theme.icon.header.primary}
               />
             </Button>
-            <Title title={route.name}>{route.name}</Title>
+            <Title title={title}>{title}</Title>
           </Wrap>
         )}
       </Container>

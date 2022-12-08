@@ -9,6 +9,8 @@ export const Container = styled(View)`
   align-items: center;
 
   justify-content: center;
+
+  padding: 0px 24px;
 `;
 
 export const Content = styled(View)`

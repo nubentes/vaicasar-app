@@ -1,41 +1,60 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import Category from '../../components/Category';
+import { ScrollView } from 'react-native';
+import { Category } from '../../components/Category';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
 import { Label } from '../../components/Label';
-import colors from '../../styles/colors';
-import theme from '../../styles/theme';
-
-import { Container, SearchArea } from './styles';
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 16,
-    color: colors.black,
-  },
-  input: {
-    marginRight: '15%',
-  },
-});
+import { Container, Card } from './styles';
 
 export function Stores() {
   const [search, setSearch] = useState('');
+  const [categorySelected, setCategorySelected] = useState('');
+
+  const initialList = [
+    { icon: 'silverware-fork-knife', categoria: 'Buffet' },
+    { icon: 'silverware-fork-knife', categoria: 'Cerimonia' },
+    { icon: 'silverware-fork-knife', categoria: 'DJ' },
+    { icon: 'silverware-fork-knife', categoria: 'Decoracao' },
+  ];
+
+  const resultsList = () => {
+    return (
+      <Category
+        search={search}
+        categorySelected={categorySelected}
+        setCategorySelected={setCategorySelected}
+        categories={initialList}
+      />
+    );
+  };
+
+  const defaultList = () => {
+    return (
+      <Category
+        search={search}
+        categories={initialList}
+        selectCategory={setCategorySelected}
+      />
+    );
+  };
 
   return (
-    // <ScrollView>
-    <Container>
-      <Label text="Minhas Tarefas" bigLabel />
-      <Input
-        value={search}
-        onChangeText={setSearch}
-        editable
-        icon="search"
-        placeholder="Busca"
-      />
+    <ScrollView>
+      <Container>
+        <Header title="Buscar" />
+        <Input
+          value={search}
+          onChangeText={setSearch}
+          editable
+          icon="search"
+          placeholder="Busca"
+        />
 
-      <Category search={search} />
-    </Container>
-    // </ScrollView>
+        <Card>
+          <Label text="Categorias" bigLabel />
+          {categorySelected ? resultsList() : defaultList()}
+        </Card>
+      </Container>
+    </ScrollView>
   );
 }

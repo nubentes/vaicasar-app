@@ -61,7 +61,7 @@ function Calendar({ onDayPress, markedDates, initialDate }: CalendarProps) {
         },
         dayTextColor: colors.black,
         todayTextColor: theme.calendar.dayColor,
-        todayBackgroundColor: theme.calendar.dotColor,
+        todayBackgroundColor: theme.calendar.dayColor,
       }}
       style={{ borderRadius: 6 }}
       firstDay={1}

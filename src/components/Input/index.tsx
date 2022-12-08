@@ -1,6 +1,6 @@
 import React from 'react';
-import { ViewStyle } from 'react-native';
-import { useTheme } from 'styled-components';
+import { StyleSheet, ViewStyle } from 'react-native';
+import theme from '../../styles/theme';
 import { Icon } from '../Icon';
 
 import { Container, DataInput } from './styles';
@@ -12,7 +12,16 @@ export interface InputProps {
   style?: ViewStyle;
   icon?: string;
   placeholder?: string;
+  placeholderTextColor?: string;
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderColor: theme.input.borderColor,
+  },
+});
 
 export function Input({
   value,
@@ -20,13 +29,20 @@ export function Input({
   editable = false,
   style,
   placeholder,
+  placeholderTextColor,
   icon,
 }: InputProps): JSX.Element {
-  const theme = useTheme();
-
   return (
     <Container>
-      {icon ? <Icon name={icon} color={theme.icon.input.primary} /> : 0}
+      {icon ? (
+        <Icon
+          name={icon}
+          color={theme.icon.input.primary}
+          style={styles.icon}
+        />
+      ) : (
+        0
+      )}
 
       <DataInput
         value={value}
@@ -36,6 +52,7 @@ export function Input({
         editable={editable}
         style={style}
         placeholder={placeholder}
+        placeholderTextColor={placeholderTextColor}
       />
     </Container>
   );

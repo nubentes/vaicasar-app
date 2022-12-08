@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { StatusBar, Text } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
 
@@ -12,6 +12,8 @@ export const Container = styled.View`
   padding: ${StatusBar.currentHeight}px;
   background-color: ${colors.white};
 `;
+
+export const Column = styled(View)``;
 
 export const Wrap = styled.View`
   flex-direction: row;

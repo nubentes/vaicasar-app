@@ -9,6 +9,7 @@ import { Favorites } from '../screens/Favorites';
 import { AppStackRoutes } from './app.stack.routes';
 import { Stores } from '../screens/Stores';
 import { Header } from '../components/Header';
+import { AppStoreRoutes } from './app.store.routes';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -41,12 +42,12 @@ export function AppTabRoutes() {
 
       <Screen
         name="Buscar"
-        component={Stores}
+        component={AppStoreRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="search" size={theme.icon.size} color={color} />
           ),
-          header: () => <Header />,
+          headerShown: false,
         }}
       />
 
@@ -57,7 +58,7 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="heart" size={theme.icon.size} color={color} />
           ),
-          header: () => <Header />,
+          headerShown: false,
         }}
       />
       <Screen
