@@ -3,18 +3,20 @@ import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 
+import * as Yup from 'yup';
 import { Calendar, DayProps } from '../../components/Calendar';
-import { TaskProps, useTask } from '../../context/list';
+import { useTask } from '../../context/list';
 import { Props } from '../../routes/app.stack.routes';
 
 import { Container, Info } from './styles';
 import { Input } from '../../components/Input';
-import { DTOTimeline } from '../../dtos/timeline';
+import { DTOCronograma } from '../../dtos/cronograma';
 import { Button } from '../../components/Button';
 import theme from '../../styles/theme';
 import colors from '../../styles/colors';
 import { DropDown } from '../../components/DropDown';
 import icons from '../../utils/icons';
+import { DTOTarefa } from '../../dtos/tarefa';
 
 const styles = StyleSheet.create({
   button: {
@@ -50,7 +52,7 @@ export function Task({ navigation, route }: Props) {
       timestamp: moment().unix(),
     },
   );
-  const [value, setValue] = useState(task?.valor || '');
+  const [value, setValue] = useState(task?.valor);
   const [store, setStore] = useState([
     {
       label: 'Loja 1',
@@ -69,11 +71,21 @@ export function Task({ navigation, route }: Props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     try {
+      const schema = Yup.object().shape({
+        title: Yup.string().required('Título obrigatório!'),
+        value: Yup.number()
+          .optional()
+          .typeError('Informe valor numérico!')
+          .positive('Valor deve ser maior que zero!'),
+      });
+
+      await schema.validate({ title, value });
+
       switch (type) {
         case 'add':
-          const newElement: TaskProps = {
+          const newElement: DTOTarefa = {
             id: task.id,
             titulo: title,
             dataPrevista: scheduledDate,
@@ -88,7 +100,7 @@ export function Task({ navigation, route }: Props) {
 
           tempList.push(newElement);
 
-          const newList: DTOTimeline = {
+          const newList: DTOCronograma = {
             id: list.id,
             dataPrevista: list.dataPrevista,
             tarefas: tempList,
@@ -112,7 +124,7 @@ export function Task({ navigation, route }: Props) {
             return item;
           });
 
-          const updatedList: DTOTimeline = {
+          const updatedList: DTOCronograma = {
             id: list.id,
             dataPrevista: list.dataPrevista,
             tarefas: temp,
@@ -130,6 +142,9 @@ export function Task({ navigation, route }: Props) {
         navigation.goBack();
       }, 1000);
     } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        return Alert.alert('Opa!', error.message);
+      }
       Alert.alert('Erro', 'Tente novamente mais tarde!');
     }
   };
@@ -158,7 +173,7 @@ export function Task({ navigation, route }: Props) {
             editable
             icon="italic"
             placeholder="Título"
-            placeholderTextColor={colors.black}
+            placeholderTextColor={colors.greys.regular}
           />
 
           <Button
@@ -215,12 +230,13 @@ export function Task({ navigation, route }: Props) {
           />
 
           <Input
-            value={value.toString()}
+            value={value}
             onChangeText={setValue}
             editable
             icon="dollar-sign"
             placeholder="R$ 0,00"
-            placeholderTextColor={colors.black}
+            placeholderTextColor={colors.greys.regular}
+            keyboardType="numeric"
           />
 
           <Input
@@ -229,7 +245,7 @@ export function Task({ navigation, route }: Props) {
             editable
             icon="align-justify"
             placeholder="Descrição"
-            placeholderTextColor={colors.black}
+            placeholderTextColor={colors.greys.regular}
           />
 
           <Button

@@ -6,21 +6,21 @@ import {
 
 import { Home } from '../screens/Home';
 import { Task } from '../screens/Task';
-import { TaskProps } from '../context/list';
 
 import { Header } from '../components/Header';
+import { DTOTarefa } from '../dtos/tarefa';
 
 export type RootStackParamList = {
-  navigate(screen: string, obj: { task: TaskProps; type: string }): unknown;
+  navigate(screen: string, obj: { task: DTOTarefa; type: string }): unknown;
   Principal: undefined;
-  Tarefa: { task: TaskProps; type: string };
+  Tarefa: { task: DTOTarefa; type: string };
 };
 
 export type Props = NativeStackScreenProps<RootStackParamList, 'Tarefa'>;
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
-export function AppStackRoutes() {
+export function AppTasksRoutes() {
   return (
     <Navigator>
       <Screen

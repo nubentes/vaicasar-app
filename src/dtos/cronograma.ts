@@ -1,7 +1,7 @@
-import { TaskProps } from '../context/list';
+import { DTOTarefa } from './tarefa';
 
 export interface DTOCronograma {
   id_cronograma: number;
   dataPrevista: string;
-  tarefas: TaskProps[];
+  tarefas: DTOTarefa[];
 }

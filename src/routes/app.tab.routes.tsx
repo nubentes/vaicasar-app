@@ -5,9 +5,8 @@ import { useTheme } from 'styled-components';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { Profile } from '../screens/Profile';
-import { Favorites } from '../screens/Favorites';
-import { AppStackRoutes } from './app.stack.routes';
-import { Stores } from '../screens/Stores';
+import { AppFavoriteRoutes } from './app.favorites.routes';
+import { AppTasksRoutes } from './app.tasks.routes';
 import { Header } from '../components/Header';
 import { AppStoreRoutes } from './app.store.routes';
 
@@ -31,7 +30,7 @@ export function AppTabRoutes() {
     >
       <Screen
         name="Home"
-        component={AppStackRoutes}
+        component={AppTasksRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="home" size={theme.icon.size} color={color} />
@@ -53,7 +52,7 @@ export function AppTabRoutes() {
 
       <Screen
         name="Favoritos"
-        component={Favorites}
+        component={AppFavoriteRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="heart" size={theme.icon.size} color={color} />

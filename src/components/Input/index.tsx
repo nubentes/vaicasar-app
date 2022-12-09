@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { KeyboardTypeOptions, StyleSheet, ViewStyle } from 'react-native';
 import theme from '../../styles/theme';
 import { Icon } from '../Icon';
 
@@ -13,6 +13,7 @@ export interface InputProps {
   icon?: string;
   placeholder?: string;
   placeholderTextColor?: string;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 const styles = StyleSheet.create({
@@ -31,6 +32,7 @@ export function Input({
   placeholder,
   placeholderTextColor,
   icon,
+  keyboardType,
 }: InputProps): JSX.Element {
   return (
     <Container>
@@ -52,6 +54,7 @@ export function Input({
         style={style}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
+        keyboardType={keyboardType}
       />
     </Container>
   );

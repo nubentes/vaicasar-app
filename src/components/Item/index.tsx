@@ -3,14 +3,15 @@ import moment from 'moment';
 import React from 'react';
 import { Alert } from 'react-native';
 
-import { TaskProps, useTask } from '../../context/list';
-import { DTOTimeline } from '../../dtos/timeline';
+import { useTask } from '../../context/list';
+import { DTOCronograma } from '../../dtos/cronograma';
+import { DTOTarefa } from '../../dtos/tarefa';
 import { deleteTask } from '../../services/list';
 
-import { Check, Container, DateText, IconButton, Info, Title } from './styles';
+import { Check, Container, DateText, Button, Info, Title } from './styles';
 
 interface ItemProps {
-  params: TaskProps;
+  params: DTOTarefa;
 }
 
 export function Item({ params }: ItemProps) {
@@ -19,8 +20,10 @@ export function Item({ params }: ItemProps) {
 
   const isDone = params.dataConclusao !== null;
 
-  const changeValue = (item: TaskProps) => {
-    const temp = list.tarefas.map((task: TaskProps) => {
+  console.log(list.id_cronograma);
+
+  const changeValue = (item: DTOTarefa) => {
+    const temp = list.tarefas.map((task: DTOTarefa) => {
       const getData = () => {
         const currentDate = moment().format('L');
         const day = moment().get('date');
@@ -54,8 +57,8 @@ export function Item({ params }: ItemProps) {
       return task;
     });
 
-    const newList: DTOTimeline = {
-      id: list.id,
+    const newList: DTOCronograma = {
+      id_cronograma: list.id,
       dataPrevista: list.dataPrevista,
       tarefas: temp,
     };
@@ -69,9 +72,19 @@ export function Item({ params }: ItemProps) {
         {
           text: 'Sim',
           onPress: () => {
-            setLoading(true);
+            // setLoading(true);
 
-            deleteTask(id);
+            const temp = list.tarefas.filter(tarefa => tarefa.id !== id);
+
+            const newList: DTOCronograma = {
+              id_cronograma: list.id_cronograma,
+              dataPrevista: list.dataPrevista,
+              tarefas: temp,
+            };
+
+            setList(newList);
+
+            // deleteTask(id);
 
             Alert.alert('Sucesso!', 'Item deletado com sucesso!');
           },
@@ -110,9 +123,9 @@ export function Item({ params }: ItemProps) {
         )}
       </Info>
 
-      <IconButton onPress={() => changeValue(params)}>
+      <Button onPress={() => changeValue(params)}>
         <Check name={isDone ? 'check' : 'clock'} check={isDone} />
-      </IconButton>
+      </Button>
     </Container>
   );
 }

@@ -16,10 +16,6 @@ export function Header({ title }: HeaderProps) {
   const theme = useTheme();
   const { user } = useAuth();
 
-  if (!user) {
-    // return;
-  }
-
   if (user) {
     return (
       <Container>

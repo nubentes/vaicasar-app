@@ -1,4 +1,5 @@
 import { TouchableOpacity } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Feather';
 import styled from 'styled-components/native';
 
@@ -7,14 +8,15 @@ interface Props {
 }
 
 export const Container = styled(TouchableOpacity)<Props>`
-  width: 327px;
-  height: 71px;
+  width: 100%;
+  height: ${RFValue(71)}px;
 
+  align-self: center;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
 
-  margin: 10px;
+  margin: 8px;
 
   border-radius: 16px;
 
@@ -47,7 +49,7 @@ export const DateText = styled.Text<Props>`
     check ? theme.card.text.color.white : theme.card.text.color.grey_medium};
 `;
 
-export const IconButton = styled.TouchableOpacity<Props>``;
+export const Button = styled(TouchableOpacity)<Props>``;
 
 export const Check = styled(Icon).attrs({
   size: 24,

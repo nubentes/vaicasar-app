@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export function Store() {
+export function StoreDetails() {
   const routes = useRoute();
 
   const { item }: LojaProps = routes.params as LojaProps;
@@ -52,7 +52,7 @@ export function Store() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
-        <Header title="Buscar" />
+        <Header title="Favoritos" />
 
         <Info>
           <Image

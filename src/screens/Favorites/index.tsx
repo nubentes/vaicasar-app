@@ -5,7 +5,8 @@ import { DropDown } from '../../components/DropDown';
 import { Header } from '../../components/Header';
 import { Icon } from '../../components/Icon';
 import { Label } from '../../components/Label';
-import { StoreProps, useTask } from '../../context/list';
+import { useTask } from '../../context/list';
+import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
 import { FONTS } from '../../styles/fonts';
 import theme from '../../styles/theme';
@@ -42,7 +43,7 @@ interface Item {
 
 export function Favorites() {
   const { categories, setCategories, stores, setStores } = useTask();
-  const [favorites, setFavorites] = useState<StoreProps[]>([]);
+  const [favorites, setFavorites] = useState<DTOLoja[]>([]);
   const [formattedCategories, setFormattedCategories] = useState<Item[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -65,7 +66,7 @@ export function Favorites() {
     );
   };
 
-  const handleFavorite = (item: StoreProps) => {
+  const handleFavorite = (item: DTOLoja) => {
     const temp = stores.map(result => {
       if (result === item) {
         result.favorite = !result.favorite;
@@ -77,7 +78,7 @@ export function Favorites() {
     setStores(temp);
   };
 
-  const getIcon = (item: StoreProps) => {
+  const getIcon = (item: DTOLoja) => {
     if (item.favorite) {
       return (
         <Icon
@@ -162,10 +163,10 @@ export function Favorites() {
                     selectedCategory.toLowerCase() ||
                   selectedCategory === '',
             )
-            .map((item: StoreProps) => (
+            .map((item: DTOLoja) => (
               <Card
                 key={item.nome}
-                onPress={() => navigation.navigate('Loja', { item })}
+                onPress={() => navigation.navigate('LojaDetalhes', { item })}
               >
                 <Wrap>
                   <Label text={item.nome} style={styles.storeTitle} />

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button } from '../../components/Button';
 import { Counter } from '../../components/Counter';
@@ -63,10 +63,7 @@ export function Home() {
 
   if (user) {
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flex: 1 }}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Wrap>
           <Counter />
 
@@ -88,6 +85,7 @@ export function Home() {
             onPress={() => handleAdd()}
           />
         </Wrap>
+
         <TaskList />
       </ScrollView>
     );

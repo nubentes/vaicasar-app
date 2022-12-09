@@ -1,27 +1,33 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { TaskProps, useTask } from '../../context/list';
+import { useTask } from '../../context/list';
 import 'moment/locale/pt-br';
 import { Item } from '../Item';
 
-import { Container } from './styles';
+import { Container, Loading } from './styles';
+import { DTOTarefa } from '../../dtos/tarefa';
+import colors from '../../styles/colors';
 
 export function TaskList(): JSX.Element {
   const { list, loading } = useTask();
 
-  const taskItem = (item: TaskProps) => {
+  const taskItem = (item: DTOTarefa) => {
     return <Item key={item.id} params={item} />;
   };
 
+  if (loading) {
+    return (
+      <Loading>
+        <ActivityIndicator size="large" color={colors.pink_red} />
+      </Loading>
+    );
+  }
+
   return (
     <Container>
-      {loading ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        list.tarefas?.map(task => {
-          return taskItem(task);
-        })
-      )}
+      {list.tarefas?.map(task => {
+        return taskItem(task);
+      })}
     </Container>
   );
 }

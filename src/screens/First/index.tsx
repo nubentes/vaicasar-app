@@ -13,6 +13,7 @@ import { useAuth } from '../../context/auth';
 import { DTOUsuario } from '../../dtos/usuario';
 import { DTOCronograma } from '../../dtos/cronograma';
 import { useTask } from '../../context/list';
+import { tasksData } from '../../mock/tarefas';
 
 const styles = StyleSheet.create({
   calendarButtonStyle: {
@@ -78,7 +79,7 @@ export function First() {
       const plan: DTOCronograma = {
         id_cronograma: 1,
         dataPrevista: initialDate,
-        tarefas: [],
+        tarefas: tasksData,
       };
 
       setUser(updateUser);
@@ -124,7 +125,6 @@ export function First() {
           textStyle={styles.continueButtonTextStyle}
           onPress={() => handleNavigation()}
           disabled={isDisabled}
-          // disabled={initialDate !== '00/00/0000'}
         />
       </ButtonStatus>
     </Container>

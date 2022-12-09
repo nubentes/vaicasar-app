@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled(View)`
-  height: 40%;
+  height: ${RFValue(97)}px;
   width: 100%;
 
   border-radius: 16px;

@@ -4,23 +4,23 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import { Favorites } from '../screens/Favorites';
-import { Store } from '../screens/Store';
+import { StoreDetails } from '../screens/StoreDetails';
 
 export type RootStackParamList = {
   // navigate(screen: string, obj: { task: TaskProps; type: string }): unknown;
-  Favoritos: undefined;
-  Loja: undefined;
+  Principal: undefined;
+  LojaDetalhes: undefined;
 };
 
-export type Props = NativeStackScreenProps<RootStackParamList, 'Favoritos'>;
+export type Props = NativeStackScreenProps<RootStackParamList, 'Principal'>;
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
-export function AppStoreRoutes() {
+export function AppFavoriteRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
-      <Screen name="Favoritos" component={Favorites} />
-      <Screen name="Loja" component={Store} />
+      <Screen name="Principal" component={Favorites} />
+      <Screen name="LojaDetalhes" component={StoreDetails} />
     </Navigator>
   );
 }

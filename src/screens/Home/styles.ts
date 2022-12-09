@@ -16,6 +16,9 @@ export const Wrap = styled(View)`
 export const Title = styled(View)`
   width: 100%;
 
+  padding-top: 24px;
+  padding-bottom: 24px;
+
   flex-direction: row;
 
   align-items: center;
