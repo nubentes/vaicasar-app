@@ -24,12 +24,22 @@ const styles = StyleSheet.create({
 export function Category({ search }: ParamsProps) {
   const navigation = useNavigation();
 
-  const { categories } = useTask();
+  const { categories, stores } = useTask();
 
   const handleCategory = (item: DTOCategoria) => {
     const { descricao } = item;
 
     navigation.navigate('Resultados', { descricao });
+  };
+
+  const getResults = (descricao: string) => {
+    const { length } = stores.filter(store => store.categoria === descricao);
+
+    return length > 1 ? (
+      <Label text={` ${length} resultados`} style={styles.text} />
+    ) : (
+      <Label text={` ${length} resultado`} style={styles.text} />
+    );
   };
 
   return (
@@ -45,7 +55,8 @@ export function Category({ search }: ParamsProps) {
           return item.id !== 0 ? (
             <Card key={item.id} onPress={() => handleCategory(item)}>
               <Label text={item.descricao} style={styles.text} />
-              <Label text="16 resultados" style={styles.text} />
+              {getResults(item.descricao)}
+              {/* <Label text="16 resultados" style={styles.text} /> */}
             </Card>
           ) : null;
         })}
