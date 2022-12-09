@@ -56,7 +56,6 @@ export function Category({ search }: ParamsProps) {
             <Card key={item.id} onPress={() => handleCategory(item)}>
               <Label text={item.descricao} style={styles.text} />
               {getResults(item.descricao)}
-              {/* <Label text="16 resultados" style={styles.text} /> */}
             </Card>
           ) : null;
         })}
