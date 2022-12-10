@@ -3,7 +3,7 @@ import { TextStyle, ViewStyle } from 'react-native';
 import { Icon } from '../Icon';
 import { Label } from '../Label';
 
-import { Container } from './styles';
+import { Container, SaveButton } from './styles';
 
 interface ButtonProps {
   buttonStyle?: ViewStyle | ViewStyle[];
@@ -16,6 +16,7 @@ interface ButtonProps {
   };
   onPress?: () => void;
   disabled?: boolean;
+  saveButton?: boolean;
 }
 
 export function Button({
@@ -26,6 +27,7 @@ export function Button({
   icon,
   onPress,
   disabled,
+  saveButton,
 }: ButtonProps): JSX.Element {
   if (icon) {
     return (
@@ -33,6 +35,14 @@ export function Button({
         <Icon name={icon.name} color={icon.color} style={iconStyle} iconInput />
         <Label text={text} style={textStyle} />
       </Container>
+    );
+  }
+
+  if (saveButton) {
+    return (
+      <SaveButton onPress={onPress} style={buttonStyle} disabled={disabled}>
+        <Label text={text} style={textStyle} />
+      </SaveButton>
     );
   }
 

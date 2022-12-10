@@ -15,6 +15,7 @@ export interface InputProps {
   placeholderTextColor?: string;
   keyboardType?: KeyboardTypeOptions;
   containerStyle?: ViewStyle;
+  secureTextEntry?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -35,6 +36,7 @@ export function Input({
   placeholderTextColor,
   icon,
   keyboardType,
+  secureTextEntry,
 }: InputProps): JSX.Element {
   return (
     <Container style={containerStyle}>
@@ -58,6 +60,7 @@ export function Input({
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
         keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
       />
     </Container>
   );

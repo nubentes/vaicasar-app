@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Dimensions, StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import DropDownPicker, { ListModeType } from 'react-native-dropdown-picker';
 import { useTask } from '../../context/list';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
@@ -19,6 +19,7 @@ interface DropDownProps {
   searchable?: boolean;
   onSelectItem?: () => void;
   style?: StyleProp<ViewStyle>;
+  mode?: ListModeType;
 }
 
 const styles = StyleSheet.create({
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     backgroundColor: theme.button.background.secondary,
     zIndex: 100,
-    flex: 1,
+    height: 61,
   },
   bottomContainer: {
     borderWidth: 1,
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
     backgroundColor: theme.button.background.secondary,
+    height: 400,
   },
   icon: {
     borderWidth: 1,
@@ -56,6 +58,7 @@ export function DropDown({
   searchable,
   onSelectItem,
   style,
+  mode,
 }: DropDownProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -82,12 +85,12 @@ export function DropDown({
         textStyle={theme.input.text}
         labelStyle={theme.input.text}
         dropDownContainerStyle={styles.bottomContainer}
-        listMode="FLATLIST"
         searchable={searchable}
         onSelectItem={onSelectItem}
         TickIconComponent={() => (
           <Icon name="check" color={colors.green_cyan} />
         )}
+        listMode={mode}
       />
     </Container>
   );

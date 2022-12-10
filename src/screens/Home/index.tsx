@@ -34,10 +34,8 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: theme.button.border.primary,
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
   },
 });
 export function Home() {
@@ -45,24 +43,24 @@ export function Home() {
   const { user } = useAuth();
   const navigation = useNavigation<RootStackParamList>();
 
-  let done = 0;
-
-  if (list) {
-    list?.tarefas?.forEach(element => {
-      if (element.dataConclusao) {
-        done += 1;
-      }
-    });
-  }
-
-  const handleAdd = () => {
-    navigation.navigate('Tarefa', {
-      task: {},
-      type: 'add',
-    });
-  };
-
   if (user) {
+    let done = 0;
+
+    const handleAdd = () => {
+      navigation.navigate('Tarefa', {
+        task: {},
+        type: 'add',
+      });
+    };
+
+    if (list) {
+      list?.tarefas?.forEach(element => {
+        if (element.dataConclusao) {
+          done += 1;
+        }
+      });
+    }
+
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <Container>

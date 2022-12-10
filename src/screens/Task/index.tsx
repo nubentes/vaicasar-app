@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import moment from 'moment';
@@ -18,6 +18,7 @@ import { DropDown } from '../../components/DropDown';
 import icons from '../../utils/icons';
 import { DTOTarefa } from '../../dtos/tarefa';
 import { Header } from '../../components/Header';
+import { DTOLoja } from '../../dtos/loja';
 
 const styles = StyleSheet.create({
   input: {
@@ -36,14 +37,13 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   icon: {
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: theme.button.border.primary,
-    borderRightWidth: 0,
   },
 });
 
 export function Task({ navigation, route }: Props) {
-  const { list, setList } = useTask();
+  const { list, setList, stores } = useTask();
   const { task, type } = route.params;
 
   const [title, setTitle] = useState<string>(task?.titulo || '');
@@ -57,23 +57,9 @@ export function Task({ navigation, route }: Props) {
     },
   );
   const [value, setValue] = useState(task?.valor);
-  const [store, setStore] = useState([
-    {
-      label: 'Loja 1',
-      value: 'Buffet',
-    },
-    {
-      label: 'Loja 2',
-      value: 'Decoração',
-    },
-    {
-      label: 'Loja 3',
-      value: 'Festa',
-    },
-  ]);
   const [description, setDescription] = useState<string>(task?.descricao || '');
-
   const [modalVisible, setModalVisible] = useState(false);
+  const [favorites, setFavorites] = useState([]);
 
   const handleSave = async () => {
     try {
@@ -167,8 +153,27 @@ export function Task({ navigation, route }: Props) {
     .reverse()
     .join('-');
 
+  const getFavorites = () => {
+    const temp = stores.filter(s => s.favorito === true);
+
+    const convert = temp.map(i => {
+      const convertedItem = {
+        label: i.nome,
+        value: i.nome,
+      };
+
+      return convertedItem;
+    });
+
+    setFavorites(convert);
+  };
+
+  useEffect(() => {
+    getFavorites();
+  }, [stores]);
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView>
       <Container>
         <Header title="Tarefa" />
 
@@ -228,7 +233,11 @@ export function Task({ navigation, route }: Props) {
           />
         </Modal>
 
-        <DropDown state={store} setState={() => setStore} placeHolder="Loja" />
+        <DropDown
+          state={favorites}
+          setState={() => setFavorites}
+          placeHolder="Loja"
+        />
 
         <Input
           value={value}
@@ -252,10 +261,8 @@ export function Task({ navigation, route }: Props) {
         />
 
         <Button
-          buttonStyle={[
-            styles.button,
-            { backgroundColor: theme.button.background.primary },
-          ]}
+          saveButton
+          buttonStyle={{ marginTop: 24 }}
           text="Salvar"
           textStyle={[
             styles.textStyle,

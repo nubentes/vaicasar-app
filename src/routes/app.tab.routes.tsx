@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Profile } from '../screens/Profile';
 import { AppFavoriteRoutes } from './app.favorites.routes';
 import { AppTasksRoutes } from './app.tasks.routes';
-import { Header } from '../components/Header';
 import { AppStoreRoutes } from './app.store.routes';
 
 const { Navigator, Screen } = createBottomTabNavigator();

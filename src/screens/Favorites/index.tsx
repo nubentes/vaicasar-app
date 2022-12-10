@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { FlatList, ScrollView, StyleSheet } from 'react-native';
 import { DropDown } from '../../components/DropDown';
 import { Header } from '../../components/Header';
 import { Icon } from '../../components/Icon';
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   storeDescription: {
     fontFamily: FONTS.MANROPE_SEMI_BOLD,
     color: colors.greys.medium,
+    marginRight: 8,
   },
   storeRating: {
     name: 'star',
@@ -69,7 +70,7 @@ export function Favorites() {
   const handleFavorite = (item: DTOLoja) => {
     const temp = stores.map(result => {
       if (result === item) {
-        result.favorite = !result.favorite;
+        result.favorito = !result.favorito;
         return result;
       }
       return result;
@@ -79,7 +80,7 @@ export function Favorites() {
   };
 
   const getIcon = (item: DTOLoja) => {
-    if (item.favorite) {
+    if (item.favorito) {
       return (
         <Icon
           name={styles.favoriteButtonIcon.name}
@@ -98,7 +99,7 @@ export function Favorites() {
   };
 
   const getFavorites = () => {
-    const temp = stores.filter(store => store.favorite === true);
+    const temp = stores.filter(store => store.favorito === true);
 
     setFavorites(temp);
   };
@@ -141,16 +142,17 @@ export function Favorites() {
   }, [stores, selectedCategory]);
 
   return (
-    <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <Container>
         <Header title="Favoritos" />
-
         <DropDown
           state={formattedCategories}
           setState={() => setCategories}
           placeHolder="Selecione uma categoria"
           onSelectItem={item => filterByCategory(item)}
+          mode="MODAL"
         />
+
         {favorites
           .filter(item =>
             selectedCategory === 'Todas'
@@ -173,7 +175,7 @@ export function Favorites() {
                     text={item.avaliacao.toFixed(1).toString()}
                     style={styles.storeDescription}
                   />
-                  {storeRating()}
+                  <>{storeRating()}</>
                 </RatingContainer>
               </Wrap>
               <Button onPress={() => handleFavorite(item)}>
@@ -181,7 +183,7 @@ export function Favorites() {
               </Button>
             </Card>
           ))}
-      </ScrollView>
-    </Container>
+      </Container>
+    </ScrollView>
   );
 }

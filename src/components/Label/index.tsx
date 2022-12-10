@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 export function Label({ text, style, bigLabel }: LabelProps) {
   if (bigLabel) {
-    return <Text style={styles.bigLabel}>{text}</Text>;
+    return <Text style={[style, styles.bigLabel]}>{text}</Text>;
   }
 
   return <Text style={style}>{text}</Text>;

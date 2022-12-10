@@ -1,7 +1,8 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { StoreProps, useTask } from '../../context/list';
+import { useTask } from '../../context/list';
+import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
 import { FONTS } from '../../styles/fonts';
 import theme from '../../styles/theme';
@@ -65,10 +66,10 @@ export function Results() {
     );
   };
 
-  const handleFavorite = (item: StoreProps) => {
+  const handleFavorite = (item: DTOLoja) => {
     const temp = stores.map(result => {
       if (result === item) {
-        result.favorite = !result.favorite;
+        result.favorito = !result.favorito;
         return result;
       }
       return result;
@@ -77,8 +78,8 @@ export function Results() {
     setStores(temp);
   };
 
-  const getIcon = (item: StoreProps) => {
-    if (item.favorite) {
+  const getIcon = (item: DTOLoja) => {
+    if (item.favorito) {
       return (
         <Icon
           name={styles.favoriteButtonIcon.name}
@@ -108,7 +109,7 @@ export function Results() {
   }, [stores]);
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
         <Header title="Buscar" />
 
@@ -122,7 +123,7 @@ export function Results() {
         />
 
         <>
-          <Label text="Resultados" bigLabel />
+          <Label text={descricao} bigLabel />
 
           {results
             .filter(
@@ -131,7 +132,7 @@ export function Results() {
                 item.nome.toLowerCase() === search.toLowerCase() ||
                 search === '',
             )
-            .map((item: StoreProps) => (
+            .map((item: DTOLoja) => (
               <Card
                 key={item.nome}
                 onPress={() => navigation.navigate('Loja', { item })}

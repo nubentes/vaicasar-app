@@ -14,13 +14,13 @@ import { DTOUsuario } from '../../dtos/usuario';
 import { DTOCronograma } from '../../dtos/cronograma';
 import { useTask } from '../../context/list';
 import { tasksData } from '../../mock/tarefas';
+import { DTOPessoa } from '../../dtos/pessoa';
 
 const styles = StyleSheet.create({
   calendarButtonStyle: {
     borderWidth: 1,
     borderColor: theme.button.border.primary,
     backgroundColor: theme.input.background,
-    alignItems: 'center',
     justifyContent: 'flex-start',
     marginTop: 15,
   },
@@ -71,7 +71,9 @@ export function First() {
 
   const handleNavigation = () => {
     if (initialDate !== '00/00/0000') {
-      const updateUser: DTOUsuario = {
+      const updateUser: DTOPessoa = {
+        nome: 'Gabriel Porto',
+        telefone: '62 983302921',
         email: 'gmporto@email.com',
         senha: '1234',
       };
@@ -89,7 +91,11 @@ export function First() {
 
   return (
     <Container>
-      <Label text="Escolha o dia do seu casamento" bigLabel />
+      <Label
+        text="Escolha o dia do seu casamento"
+        bigLabel
+        style={{ textAlign: 'center' }}
+      />
 
       <Button
         buttonStyle={styles.calendarButtonStyle}
@@ -125,6 +131,7 @@ export function First() {
           textStyle={styles.continueButtonTextStyle}
           onPress={() => handleNavigation()}
           disabled={isDisabled}
+          saveButton
         />
       </ButtonStatus>
     </Container>

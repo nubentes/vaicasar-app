@@ -20,7 +20,9 @@ export const Card = styled(TouchableOpacity)`
 `;
 
 export const Wrap = styled(View)`
+  height: ${RFValue(71)}px;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const RatingContainer = styled(View)`
@@ -28,8 +30,6 @@ export const RatingContainer = styled(View)`
   flex-direction: row;
 
   align-items: center;
-  justify-content: space-between;
-  padding-top: 8px;
 `;
 
 export const Button = styled(TouchableOpacity)``;
