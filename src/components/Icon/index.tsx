@@ -11,9 +11,17 @@ interface IconProps {
   style?: ViewStyle;
   onlyIcon?: boolean;
   iconButton?: boolean;
+  iconInput?: boolean;
 }
 
-export function Icon({ name, color, style, onlyIcon, iconButton }: IconProps) {
+export function Icon({
+  name,
+  color,
+  style,
+  onlyIcon,
+  iconButton,
+  iconInput,
+}: IconProps) {
   if (iconButton) {
     return <FontAwesomeIcon name={name} size={24} color={color} />;
   }
@@ -22,7 +30,7 @@ export function Icon({ name, color, style, onlyIcon, iconButton }: IconProps) {
     return <FeatherIcon name={name} size={24} color={color} />;
   }
 
-  if (!onlyIcon) {
+  if (iconInput) {
     return (
       <Container style={style}>
         <FeatherIcon name={name} size={24} color={color} />

@@ -1,20 +1,13 @@
-import { RFValue } from 'react-native-responsive-fontsize';
-import { TextInput } from 'react-native';
+import { TextInput, View } from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
-export const Container = styled.View`
-  padding-top: ${RFValue(10)}px;
+export const Container = styled(View)`
   flex-direction: row;
-
-  padding: 24px;
-
-  align-self: center;
 `;
 
 export const DataInput = styled(TextInput)`
-  width: 100%;
-  height: ${RFValue(56)}px;
+  flex: 1;
 
   background: ${({ theme }) => theme.input.background};
 

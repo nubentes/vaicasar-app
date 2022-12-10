@@ -3,11 +3,11 @@ import { TextStyle, ViewStyle } from 'react-native';
 import { Icon } from '../Icon';
 import { Label } from '../Label';
 
-import { Container, Content } from './styles';
+import { Container } from './styles';
 
 interface ButtonProps {
   buttonStyle?: ViewStyle | ViewStyle[];
-  text: string;
+  text?: string;
   textStyle?: TextStyle | TextStyle[];
   iconStyle?: ViewStyle;
   icon?: {
@@ -30,10 +30,8 @@ export function Button({
   if (icon) {
     return (
       <Container onPress={onPress} style={buttonStyle} disabled={!onPress}>
-        <Content>
-          <Icon name={icon.name} color={icon.color} style={iconStyle} />
-          <Label text={text} style={textStyle} />
-        </Content>
+        <Icon name={icon.name} color={icon.color} style={iconStyle} iconInput />
+        <Label text={text} style={textStyle} />
       </Container>
     );
   }

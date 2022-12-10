@@ -7,7 +7,6 @@ import {
 import { Home } from '../screens/Home';
 import { Task } from '../screens/Task';
 
-import { Header } from '../components/Header';
 import { DTOTarefa } from '../dtos/tarefa';
 
 export type RootStackParamList = {
@@ -22,21 +21,9 @@ const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
 export function AppTasksRoutes() {
   return (
-    <Navigator>
-      <Screen
-        name="Principal"
-        component={Home}
-        options={{
-          header: () => <Header />,
-        }}
-      />
-      <Screen
-        name="Tarefa"
-        component={Task}
-        options={{
-          header: () => <Header />,
-        }}
-      />
+    <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="Principal" component={Home} />
+      <Screen name="Tarefa" component={Task} />
     </Navigator>
   );
 }

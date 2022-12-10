@@ -14,6 +14,7 @@ export interface InputProps {
   placeholder?: string;
   placeholderTextColor?: string;
   keyboardType?: KeyboardTypeOptions;
+  containerStyle?: ViewStyle;
 }
 
 const styles = StyleSheet.create({
@@ -28,6 +29,7 @@ export function Input({
   value,
   onChangeText,
   editable = false,
+  containerStyle,
   style,
   placeholder,
   placeholderTextColor,
@@ -35,12 +37,13 @@ export function Input({
   keyboardType,
 }: InputProps): JSX.Element {
   return (
-    <Container>
+    <Container style={containerStyle}>
       {icon ? (
         <Icon
           name={icon}
           color={theme.icon.input.primary}
           style={styles.icon}
+          iconInput
         />
       ) : (
         0

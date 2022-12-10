@@ -26,6 +26,7 @@ export function AppTabRoutes() {
           backgroundColor: theme.container.background,
         },
         tabBarHideOnKeyboard: true,
+        headerShown: false,
       }}
     >
       <Screen
@@ -35,7 +36,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="home" size={theme.icon.size} color={color} />
           ),
-          headerShown: false,
         }}
       />
 
@@ -46,7 +46,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="search" size={theme.icon.size} color={color} />
           ),
-          headerShown: false,
         }}
       />
 
@@ -57,7 +56,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="heart" size={theme.icon.size} color={color} />
           ),
-          headerShown: false,
         }}
       />
       <Screen
@@ -67,7 +65,6 @@ export function AppTabRoutes() {
           tabBarIcon: ({ color }) => (
             <Icon name="user" size={theme.icon.size} color={color} />
           ),
-          header: () => <Header />,
         }}
       />
     </Navigator>

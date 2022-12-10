@@ -20,8 +20,6 @@ export function Item({ params }: ItemProps) {
 
   const isDone = params.dataConclusao !== null;
 
-  console.log(list.id_cronograma);
-
   const changeValue = (item: DTOTarefa) => {
     const temp = list.tarefas.map((task: DTOTarefa) => {
       const getData = () => {

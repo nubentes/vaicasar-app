@@ -4,11 +4,10 @@ import styled from 'styled-components/native';
 
 export const Container = styled(View)`
   flex: 1;
-`;
-
-export const Info = styled(View)`
   padding: 24px 24px;
 `;
+
+export const Info = styled(View)``;
 
 export const SubHeader = styled(View)`
   flex-direction: row;

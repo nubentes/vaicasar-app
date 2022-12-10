@@ -6,9 +6,9 @@ import moment from 'moment';
 import * as Yup from 'yup';
 import { Calendar, DayProps } from '../../components/Calendar';
 import { useTask } from '../../context/list';
-import { Props } from '../../routes/app.stack.routes';
+import { Props } from '../../routes/app.tasks.routes';
 
-import { Container, Info } from './styles';
+import { Container } from './styles';
 import { Input } from '../../components/Input';
 import { DTOCronograma } from '../../dtos/cronograma';
 import { Button } from '../../components/Button';
@@ -17,14 +17,18 @@ import colors from '../../styles/colors';
 import { DropDown } from '../../components/DropDown';
 import icons from '../../utils/icons';
 import { DTOTarefa } from '../../dtos/tarefa';
+import { Header } from '../../components/Header';
 
 const styles = StyleSheet.create({
+  input: {
+    marginTop: 24,
+  },
   button: {
-    margin: 24,
+    marginTop: 24,
     borderWidth: 1,
     borderColor: theme.input.borderColor,
     backgroundColor: theme.input.background,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   textStyle: {
     fontSize: theme.input.text.fontSize,
@@ -164,108 +168,106 @@ export function Task({ navigation, route }: Props) {
     .join('-');
 
   return (
-    <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Info>
-          <Input
-            value={title}
-            onChangeText={setTitle}
-            editable
-            icon="italic"
-            placeholder="Título"
-            placeholderTextColor={colors.greys.regular}
-          />
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <Container>
+        <Header title="Tarefa" />
 
-          <Button
-            buttonStyle={styles.button}
-            text={scheduledDate.dateString || 'Data prevista'}
-            textStyle={styles.textStyle}
-            icon={{ name: icons.calendar, color: theme.icon.button.primary }}
-            iconStyle={styles.icon}
-            onPress={() => setModalVisible(true)}
-          />
+        <Input
+          value={title}
+          onChangeText={setTitle}
+          editable
+          icon="italic"
+          placeholder="Título"
+          placeholderTextColor={colors.greys.regular}
+        />
 
-          <Button
-            buttonStyle={[
-              styles.button,
-              { backgroundColor: theme.input.background },
-            ]}
-            text="Data conclusão"
-            textStyle={styles.textStyle}
-            icon={{ name: icons.calendar, color: theme.icon.button.primary }}
-            iconStyle={styles.icon}
-          />
+        <Button
+          buttonStyle={styles.button}
+          text={scheduledDate.dateString || 'Data prevista'}
+          textStyle={styles.textStyle}
+          icon={{ name: icons.calendar, color: theme.icon.button.primary }}
+          iconStyle={styles.icon}
+          onPress={() => setModalVisible(true)}
+        />
 
-          <Modal
-            animationInTiming={1000}
-            animationOutTiming={1000}
-            backdropTransitionInTiming={1000}
-            backdropTransitionOutTiming={0}
-            isVisible={modalVisible}
-            onBackdropPress={() => setModalVisible(false)}
-          >
-            <Calendar
-              markedDates={{
-                [markedInitialDate]: {
-                  selected: true,
-                  marked: true,
-                  selectedColor: colors.pink_red,
-                },
-              }}
-              initialDate={markedInitialDate}
-              style={{ borderRadius: 10 }}
-              onDayPress={date => onDateChange(date)}
-              headerStyle={{
-                borderBottomWidth: 0.5,
-                paddingBottom: 10,
-                marginBottom: 10,
-              }}
-            />
-          </Modal>
+        <Button
+          buttonStyle={[
+            styles.button,
+            { backgroundColor: theme.input.background },
+          ]}
+          text="Data conclusão"
+          textStyle={styles.textStyle}
+          icon={{ name: icons.calendar, color: theme.icon.button.primary }}
+          iconStyle={styles.icon}
+        />
 
-          <DropDown
-            state={store}
-            setState={() => setStore}
-            placeHolder="Loja"
-          />
-
-          <Input
-            value={value}
-            onChangeText={setValue}
-            editable
-            icon="dollar-sign"
-            placeholder="R$ 0,00"
-            placeholderTextColor={colors.greys.regular}
-            keyboardType="numeric"
-          />
-
-          <Input
-            value={description}
-            onChangeText={setDescription}
-            editable
-            icon="align-justify"
-            placeholder="Descrição"
-            placeholderTextColor={colors.greys.regular}
-          />
-
-          <Button
-            buttonStyle={[
-              styles.button,
-              { backgroundColor: theme.button.background.primary },
-            ]}
-            text="Salvar"
-            textStyle={[
-              styles.textStyle,
-              {
-                textAlign: 'center',
-                color: theme.button.text.color.primary,
-                width: '100%',
+        <Modal
+          animationInTiming={1000}
+          animationOutTiming={1000}
+          backdropTransitionInTiming={1000}
+          backdropTransitionOutTiming={0}
+          isVisible={modalVisible}
+          onBackdropPress={() => setModalVisible(false)}
+        >
+          <Calendar
+            markedDates={{
+              [markedInitialDate]: {
+                selected: true,
+                marked: true,
+                selectedColor: colors.pink_red,
               },
-            ]}
-            onPress={() => handleSave()}
+            }}
+            initialDate={markedInitialDate}
+            style={{ borderRadius: 10 }}
+            onDayPress={date => onDateChange(date)}
+            headerStyle={{
+              borderBottomWidth: 0.5,
+              paddingBottom: 10,
+              marginBottom: 10,
+            }}
           />
-        </Info>
-      </ScrollView>
-    </Container>
+        </Modal>
+
+        <DropDown state={store} setState={() => setStore} placeHolder="Loja" />
+
+        <Input
+          value={value}
+          onChangeText={setValue}
+          editable
+          icon="dollar-sign"
+          placeholder="R$ 0,00"
+          placeholderTextColor={colors.greys.regular}
+          keyboardType="numeric"
+          containerStyle={styles.input}
+        />
+
+        <Input
+          value={description}
+          onChangeText={setDescription}
+          editable
+          icon="align-justify"
+          placeholder="Descrição"
+          placeholderTextColor={colors.greys.regular}
+          containerStyle={styles.input}
+        />
+
+        <Button
+          buttonStyle={[
+            styles.button,
+            { backgroundColor: theme.button.background.primary },
+          ]}
+          text="Salvar"
+          textStyle={[
+            styles.textStyle,
+            {
+              textAlign: 'center',
+              color: theme.button.text.color.primary,
+              width: '100%',
+            },
+          ]}
+          onPress={() => handleSave()}
+        />
+      </Container>
+    </ScrollView>
   );
 }

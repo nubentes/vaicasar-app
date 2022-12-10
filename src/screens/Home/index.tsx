@@ -3,15 +3,16 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button } from '../../components/Button';
 import { Counter } from '../../components/Counter';
+import { MainHeader } from '../../components/Header';
 import { Label } from '../../components/Label';
 import { TaskList } from '../../components/TaskList';
 import { useAuth } from '../../context/auth';
 import { useTask } from '../../context/list';
-import { RootStackParamList } from '../../routes/app.stack.routes';
+import { RootStackParamList } from '../../routes/app.tasks.routes';
 import theme from '../../styles/theme';
 import { First } from '../First';
 
-import { Title, Wrap } from './styles';
+import { Container, Title } from './styles';
 
 const styles = StyleSheet.create({
   buttonStyle: {
@@ -64,7 +65,8 @@ export function Home() {
   if (user) {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Wrap>
+        <Container>
+          <MainHeader />
           <Counter />
 
           <Title>
@@ -84,9 +86,9 @@ export function Home() {
             text="Adicionar nova tarefa"
             onPress={() => handleAdd()}
           />
-        </Wrap>
 
-        <TaskList />
+          <TaskList />
+        </Container>
       </ScrollView>
     );
   }

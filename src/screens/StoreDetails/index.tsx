@@ -52,51 +52,46 @@ export function StoreDetails() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
-        <Header title="Favoritos" />
+        <Header title="Buscar" />
 
-        <Info>
-          <Image
-            source={{
-              uri: item.img,
-            }}
-          />
+        <Image
+          source={{
+            uri: item.img,
+          }}
+        />
 
-          <SubHeader>
-            <Wrap>
-              <Label bigLabel text={item?.nome} />
-              <Label
-                text={item?.descricao}
-                style={styles.textDescriptionStyle}
-              />
-            </Wrap>
+        <SubHeader>
+          <Wrap>
+            <Label bigLabel text={item?.nome} />
+            <Label text={item?.descricao} style={styles.textDescriptionStyle} />
+          </Wrap>
 
-            <Rating>
-              <Label text={item?.avaliacao.toFixed(1).toString()} />
-              <Icon
-                name={styles.ratingIcon.name}
-                color={styles.ratingIcon.color}
-                iconButton
-              />
-            </Rating>
-          </SubHeader>
+          <Rating>
+            <Label text={item?.avaliacao.toFixed(1).toString()} />
+            <Icon
+              name={styles.ratingIcon.name}
+              color={styles.ratingIcon.color}
+              iconButton
+            />
+          </Rating>
+        </SubHeader>
 
-          <Button
-            text="Rua panamá, Setor Ponta Sul"
-            buttonStyle={styles.buttonStyle}
-            icon={styles.locationIcon}
-          />
-          <Button
-            text="+55 (62) 9 1234-5678"
-            buttonStyle={styles.buttonStyle}
-            icon={styles.phoneIcon}
-          />
+        <Button
+          text="Rua panamá, Setor Ponta Sul"
+          buttonStyle={styles.buttonStyle}
+          icon={styles.locationIcon}
+        />
+        <Button
+          text="+55 (62) 9 1234-5678"
+          buttonStyle={styles.buttonStyle}
+          icon={styles.phoneIcon}
+        />
 
-          <Button
-            text={item.sobre}
-            buttonStyle={[styles.buttonStyle, { height: 130 }]}
-            textStyle={[styles.textAboutStyle, { padding: 16 }]}
-          />
-        </Info>
+        <Button
+          text={item.sobre}
+          buttonStyle={[styles.buttonStyle, { height: 130 }]}
+          textStyle={[styles.textAboutStyle, { padding: 16 }]}
+        />
       </Container>
     </ScrollView>
   );

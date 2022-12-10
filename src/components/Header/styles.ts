@@ -1,26 +1,33 @@
 import styled from 'styled-components/native';
-import { StatusBar, Text, View } from 'react-native';
+import { StatusBar, Text, TouchableOpacity, View, Image } from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
 
 interface TitleProps {
-  title?: string;
+  title?: boolean;
 }
 
-export const Container = styled.View`
-  height: 80px;
-  padding: ${StatusBar.currentHeight}px;
-  background-color: ${colors.white};
+export const Container = styled(View)`
+  padding-top: ${StatusBar.currentHeight}px;
+  padding-bottom: 24px;
 `;
 
 export const Column = styled(View)``;
 
-export const Wrap = styled.View`
+export const Wrap = styled(View)`
   flex-direction: row;
   align-items: center;
 `;
 
-export const Button = styled.TouchableOpacity`
+export const Avatar = styled(Image)`
+  width: ${RFValue(56)}px;
+  height: ${RFValue(56)}px;
+
+  border-radius: 16px;
+`;
+
+export const Button = styled(TouchableOpacity)`
   width: 56px;
   height: 56px;
 

@@ -109,15 +109,16 @@ export function Results() {
 
   return (
     <ScrollView>
-      <Header title="Buscar" />
-
       <Container>
+        <Header title="Buscar" />
+
         <Input
           value={search}
           onChangeText={setSearch}
           editable
           icon="search"
           placeholder="Busca"
+          containerStyle={{ paddingBottom: 24 }}
         />
 
         <>
@@ -141,11 +142,13 @@ export function Results() {
                     text={item.descricao}
                     style={styles.storeDescription}
                   />
-                  <Label
-                    text={item.avaliacao.toFixed(1).toString()}
-                    style={styles.storeDescription}
-                  />
-                  {storeRating()}
+                  <RatingContainer>
+                    <Label
+                      text={item.avaliacao.toFixed(1).toString()}
+                      style={styles.storeDescription}
+                    />
+                    {storeRating()}
+                  </RatingContainer>
                 </Wrap>
                 <Button onPress={() => handleFavorite(item)}>
                   {getIcon(item)}

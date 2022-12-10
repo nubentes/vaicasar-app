@@ -16,7 +16,7 @@ export function Stores() {
     return <Category search={search} />;
   };
 
-  if (!categories) {
+  const noCategories = () => {
     return (
       <Container>
         <Header title="Buscar" />
@@ -34,27 +34,32 @@ export function Stores() {
         </Loading>
       </Container>
     );
-  }
+  };
 
-  if (categories) {
+  const getCategories = () => {
     return (
-      <ScrollView>
-        <Container>
-          <Header title="Buscar" />
-          <Input
-            value={search}
-            onChangeText={setSearch}
-            editable
-            icon="search"
-            placeholder="Busca"
-          />
+      <Container>
+        <Header title="Buscar" />
 
-          <Card>
-            <Label text="Categorias" bigLabel />
-            {handleCategoryList()}
-          </Card>
-        </Container>
-      </ScrollView>
+        <Input
+          value={search}
+          onChangeText={setSearch}
+          editable
+          icon="search"
+          placeholder="Busca"
+        />
+
+        <Card style={{ paddingTop: 24 }}>
+          <Label text="Categorias" bigLabel />
+          {handleCategoryList()}
+        </Card>
+      </Container>
     );
-  }
+  };
+
+  return (
+    <ScrollView showsVerticalScrollIndicator={false}>
+      {!categories ? noCategories() : getCategories()}
+    </ScrollView>
+  );
 }

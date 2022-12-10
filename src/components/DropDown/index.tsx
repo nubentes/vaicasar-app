@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { Dimensions, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useTask } from '../../context/list';
 import colors from '../../styles/colors';
@@ -17,7 +17,7 @@ interface DropDownProps {
   setState: () => void;
   placeHolder?: string;
   searchable?: boolean;
-  onSelectItem: () => void;
+  onSelectItem?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     borderLeftWidth: 0,
     backgroundColor: theme.button.background.secondary,
-    height: 56,
     zIndex: 100,
+    flex: 1,
   },
   bottomContainer: {
     borderWidth: 1,
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.button.border.primary,
     borderRightWidth: 0,
-    height: 56,
+    left: 5,
   },
 });
 
@@ -67,6 +67,7 @@ export function DropDown({
         name={icons.list}
         color={theme.icon.button.primary}
         style={styles.icon}
+        iconInput
       />
       <DropDownPicker
         loading={loading}

@@ -1,31 +1,22 @@
-import { Dimensions, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
-
-const { width } = Dimensions.get('screen');
+import colors from '../../styles/colors';
 
 export const Container = styled(View)`
   flex: 1;
-`;
-
-export const Info = styled(View)`
-  padding: 24px;
+  padding: 24px 24px 0px 24px;
 `;
 
 export const Card = styled(TouchableOpacity)`
-  width: ${RFValue(0.9 * width)}px;
   height: ${RFValue(112)}px;
-
-  align-self: center;
 
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 
-  margin: 10px;
-  padding: 16px;
-
-  border-radius: 16px;
+  border-bottom-width: 1px;
+  border-color: ${colors.greys.light};
 `;
 
 export const Wrap = styled(View)`
@@ -33,7 +24,12 @@ export const Wrap = styled(View)`
 `;
 
 export const RatingContainer = styled(View)`
+  width: ${RFValue(147)}px;
   flex-direction: row;
+
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
 `;
 
 export const Button = styled(TouchableOpacity)``;

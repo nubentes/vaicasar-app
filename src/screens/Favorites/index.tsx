@@ -11,7 +11,7 @@ import colors from '../../styles/colors';
 import { FONTS } from '../../styles/fonts';
 import theme from '../../styles/theme';
 
-import { Button, Card, Container, Info, RatingContainer, Wrap } from './styles';
+import { Button, Card, Container, RatingContainer, Wrap } from './styles';
 
 const styles = StyleSheet.create({
   storeTitle: {
@@ -142,50 +142,45 @@ export function Favorites() {
 
   return (
     <Container>
-      <Header title="Favoritos" />
-      <Info>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Header title="Favoritos" />
+
         <DropDown
           state={formattedCategories}
           setState={() => setCategories}
           placeHolder="Selecione uma categoria"
           onSelectItem={item => filterByCategory(item)}
         />
-      </Info>
-
-      <ScrollView>
-        <>
-          {favorites
-            .filter(item =>
-              selectedCategory === 'Todas'
-                ? item
-                : item.categoria.includes(selectedCategory) ||
-                  item.categoria.toLowerCase() ===
-                    selectedCategory.toLowerCase() ||
-                  selectedCategory === '',
-            )
-            .map((item: DTOLoja) => (
-              <Card
-                key={item.nome}
-                onPress={() => navigation.navigate('LojaDetalhes', { item })}
-              >
-                <Wrap>
-                  <Label text={item.nome} style={styles.storeTitle} />
-                  <Label
-                    text={item.descricao}
-                    style={styles.storeDescription}
-                  />
+        {favorites
+          .filter(item =>
+            selectedCategory === 'Todas'
+              ? item
+              : item.categoria.includes(selectedCategory) ||
+                item.categoria.toLowerCase() ===
+                  selectedCategory.toLowerCase() ||
+                selectedCategory === '',
+          )
+          .map((item: DTOLoja) => (
+            <Card
+              key={item.nome}
+              onPress={() => navigation.navigate('LojaDetalhes', { item })}
+            >
+              <Wrap>
+                <Label text={item.nome} style={styles.storeTitle} />
+                <Label text={item.descricao} style={styles.storeDescription} />
+                <RatingContainer>
                   <Label
                     text={item.avaliacao.toFixed(1).toString()}
                     style={styles.storeDescription}
                   />
                   {storeRating()}
-                </Wrap>
-                <Button onPress={() => handleFavorite(item)}>
-                  {getIcon(item)}
-                </Button>
-              </Card>
-            ))}
-        </>
+                </RatingContainer>
+              </Wrap>
+              <Button onPress={() => handleFavorite(item)}>
+                {getIcon(item)}
+              </Button>
+            </Card>
+          ))}
       </ScrollView>
     </Container>
   );
