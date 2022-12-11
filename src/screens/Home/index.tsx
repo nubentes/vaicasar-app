@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import moment from 'moment';
+import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { Button } from '../../components/Button';
 import { Counter } from '../../components/Counter';
@@ -8,6 +9,7 @@ import { Label } from '../../components/Label';
 import { TaskList } from '../../components/TaskList';
 import { useAuth } from '../../context/auth';
 import { DTOCronograma } from '../../dtos/cronograma';
+import { DTOTarefa } from '../../dtos/tarefa';
 import { RootStackParamList } from '../../routes/app.tasks.routes';
 import { getTimeline } from '../../services/timeline';
 import colors from '../../styles/colors';
@@ -59,7 +61,39 @@ export function Home() {
       const isTimelinePresent: DTOCronograma = await getTimeline(user);
 
       if (isTimelinePresent) {
-        setList(isTimelinePresent);
+        const v1 = moment();
+        const v2 = moment(isTimelinePresent.dataPrevista);
+
+        const time = v2.diff(v1, 'days');
+
+        const convertDate = isTimelinePresent.dataPrevista
+          .split('-')
+          .reverse()
+          .join('/');
+
+        const formatDates = isTimelinePresent.tarefas.map((item: DTOTarefa) => {
+          const formattedDate: string = item.dataPrevista
+            ? moment(item.dataPrevista).format('L')
+            : moment().format('L');
+
+          item.dataPrevista = {
+            dateString: formattedDate,
+            day: Number(moment(item.dataPrevista).format('D')),
+            month: Number(moment(item.dataPrevista).format('M')),
+            year: Number(moment(item.dataPrevista).format('Y')),
+            timestamp: Number(moment(item.dataPrevista).unix()),
+          };
+
+          return item;
+        });
+
+        const formatList: DTOCronograma = {
+          id_cronograma: isTimelinePresent.id_cronograma,
+          dataPrevista: convertDate,
+          tarefas: formatDates,
+          diasRestantes: time,
+        };
+        setList(formatList);
 
         list?.tarefas?.forEach(element => {
           if (element.dataConclusao) {

@@ -45,6 +45,7 @@ function AuthProvider({ children }: ProviderProps) {
   const [stores, setStores] = useState<DTOLoja[]>(storesData);
   const [categories, setCategories] = useState(categoriesData);
   const [filterItem, setFilterItem] = useState(null);
+
   const key = '@user';
 
   async function signIn(params: DTOUsuario) {
@@ -67,7 +68,10 @@ function AuthProvider({ children }: ProviderProps) {
       };
 
       await AsyncStorage.setItem(key, JSON.stringify(userData));
-      setUser(userData);
+
+      setTimeout(() => {
+        setUser(userData);
+      }, 2000);
 
       return data;
     } catch (error) {

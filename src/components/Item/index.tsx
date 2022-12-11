@@ -70,8 +70,6 @@ export function Item({ params }: ItemProps) {
         {
           text: 'Sim',
           onPress: () => {
-            // setLoading(true);
-
             const temp = list.tarefas.filter(tarefa => tarefa.id !== id);
 
             const newList: DTOCronograma = {
@@ -81,8 +79,6 @@ export function Item({ params }: ItemProps) {
             };
 
             setList(newList);
-
-            // deleteTask(id);
 
             Alert.alert('Sucesso!', 'Item deletado com sucesso!');
           },
