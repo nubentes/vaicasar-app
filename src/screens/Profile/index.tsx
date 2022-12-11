@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import * as Yup from 'yup';
+import ToastManager, { Toast } from 'toastify-react-native';
 import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
@@ -8,7 +9,6 @@ import { useAuth } from '../../context/auth';
 import { DTOPessoa } from '../../dtos/pessoa';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
-
 import { Avatar, Container } from './styles';
 
 const styles = StyleSheet.create({
@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: theme.button.border.primary,
   },
+  notification: {
+    width: 327,
+    height: 56,
+  },
 });
 
 export function Profile() {
@@ -47,8 +51,9 @@ export function Profile() {
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório!'),
-        // email: Yup.string().email('Email é obrigatorio'),
-        // .required('Email obrigatório')
+        email: Yup.string()
+          .email('Email inválido')
+          .required('Email obrigatório'),
         // phone: Yup.number().max(11).required('Telefone obrigatório'),
       });
 
@@ -63,18 +68,17 @@ export function Profile() {
 
       setUser(userData);
 
-      Alert.alert('Sucesso!', 'Informações foram salvas!');
+      Toast.success('Informações foram salvas!');
     } catch (error) {
-      if (error) {
-        return Alert.alert('Opa!', error.message);
-      }
-      Alert.alert('Erro', 'Tente novamente mais tarde!');
+      Toast.error(error.message);
     }
   };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
+        <ToastManager duration={2000} style={styles.notification} />
+
         <Header title="Perfil" />
 
         <Avatar source={{ uri: url }} />

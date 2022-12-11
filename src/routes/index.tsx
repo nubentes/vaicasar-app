@@ -19,7 +19,7 @@ export function Routes() {
 
   return (
     <NavigationContainer theme={MyTheme}>
-      {user ? <AppTabRoutes /> : <AuthRoutes />}
+      {user?.email ? <AppTabRoutes /> : <AuthRoutes />}
     </NavigationContainer>
   );
 }

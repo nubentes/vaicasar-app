@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { DropDown } from '../../components/DropDown';
 import { Header } from '../../components/Header';
 import { Icon } from '../../components/Icon';
 import { Label } from '../../components/Label';
-import { useTask } from '../../context/list';
+import { useAuth } from '../../context/auth';
+
 import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
 import { FONTS } from '../../styles/fonts';
@@ -43,7 +44,7 @@ interface Item {
 }
 
 export function Favorites() {
-  const { categories, setCategories, stores, setStores } = useTask();
+  const { categories, setCategories, stores, setStores } = useAuth();
   const [favorites, setFavorites] = useState<DTOLoja[]>([]);
   const [formattedCategories, setFormattedCategories] = useState<Item[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');

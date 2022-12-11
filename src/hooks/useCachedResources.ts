@@ -29,7 +29,7 @@ export function useCachedResources() {
           [FONTS.MANROPE_EXTRA_BOLD]: Manrope_800ExtraBold,
         });
       } catch (error) {
-        console.log(error);
+        throw new Error(error);
       } finally {
         setAppIsReady(true);
       }

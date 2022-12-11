@@ -27,6 +27,7 @@ export function AppTabRoutes() {
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}
+      initialRouteName="Home"
     >
       <Screen
         name="Home"

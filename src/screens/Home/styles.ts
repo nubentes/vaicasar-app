@@ -17,3 +17,10 @@ export const Title = styled(View)`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const Loading = styled(View)`
+  flex: 1;
+
+  align-items: center;
+  justify-content: center;
+`;

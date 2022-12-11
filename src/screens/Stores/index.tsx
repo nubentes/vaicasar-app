@@ -4,13 +4,13 @@ import { Category } from '../../components/Category';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
 import { Label } from '../../components/Label';
-import { useTask } from '../../context/list';
+
 import colors from '../../styles/colors';
 import { Container, Loading, Card } from './styles';
 
 export function Stores() {
   const [search, setSearch] = useState('');
-  const { categories } = useTask();
+  const { categories } = useAuth();
 
   const handleCategoryList = () => {
     return <Category search={search} />;

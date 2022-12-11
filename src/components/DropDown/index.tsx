@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import DropDownPicker, { ListModeType } from 'react-native-dropdown-picker';
-import { useTask } from '../../context/list';
+import { useAuth } from '../../context/auth';
+
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import icons from '../../utils/icons';
@@ -62,7 +63,7 @@ export function DropDown({
 }: DropDownProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { filterItem, setFilterItem } = useTask();
+  const { filterItem, setFilterItem } = useAuth();
 
   return (
     <Container style={style}>

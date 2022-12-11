@@ -12,7 +12,7 @@ import icons from '../../utils/icons';
 import { useAuth } from '../../context/auth';
 import { DTOUsuario } from '../../dtos/usuario';
 import { DTOCronograma } from '../../dtos/cronograma';
-import { useTask } from '../../context/list';
+
 import { tasksData } from '../../mock/tarefas';
 import { DTOPessoa } from '../../dtos/pessoa';
 
@@ -57,7 +57,7 @@ export function First() {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const { setUser } = useAuth();
-  const { setList } = useTask();
+  const { setList } = useAuth();
 
   const onDateChange = (date: DayProps) => {
     const formatted = moment(date.dateString).format('L');

@@ -13,6 +13,8 @@ import { Container, Form } from './styles';
 import { InitialHeader } from '../../components/Header';
 import { useAuth } from '../../context/auth';
 import { DTOPessoa } from '../../dtos/pessoa';
+import { createAccount } from '../../services/user';
+import { DTOUsuario } from '../../dtos/usuario';
 
 const styles = StyleSheet.create({
   input: {
@@ -55,12 +57,26 @@ export function CreateAccount() {
 
       await schema.validate({ name, email, phone, password });
 
-      const userData: DTOPessoa = {
-        name,
+      const params: DTOPessoa = {
+        nome: name,
         email,
-        phone,
-        password,
+        telefone: phone,
+        senha: password,
       };
+
+      console.log(params);
+
+      const data: DTOPessoa = await createAccount(params);
+
+      if (data) {
+        console.log(data);
+        // Toast.success('Login realizado com sucesso!');
+        // setUser(userData);
+
+        // setTimeout(() => {
+        //   navigation.navigate('First');
+        // }, 2000);
+      }
 
       // setUser(userData);
 
@@ -70,6 +86,10 @@ export function CreateAccount() {
         navigation.navigate('First');
       }, 2000);
     } catch (error) {
+      console.log(error.response);
+      const { menssages } = error.response.data;
+
+      // console.log(menssages[0].message);
       Toast.error(error.message);
     }
   };

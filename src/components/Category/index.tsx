@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { useTask } from '../../context/list';
+
 import { DTOCategoria } from '../../dtos/categoria';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 export function Category({ search }: ParamsProps) {
   const navigation = useNavigation();
 
-  const { categories, stores } = useTask();
+  const { categories, stores } = useAuth();
 
   const handleCategory = (item: DTOCategoria) => {
     const { descricao } = item;

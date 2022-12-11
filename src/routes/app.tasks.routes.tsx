@@ -21,7 +21,10 @@ const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
 
 export function AppTasksRoutes() {
   return (
-    <Navigator screenOptions={{ headerShown: false }}>
+    <Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Principal"
+    >
       <Screen name="Principal" component={Home} />
       <Screen name="Tarefa" component={Task} />
     </Navigator>

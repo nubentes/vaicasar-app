@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { useTask } from '../../context/list';
+
 import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
 import { FONTS } from '../../styles/fonts';
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 export function Results() {
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
-  const { stores, setStores } = useTask();
+  const { stores, setStores } = useAuth();
 
   const navigation = useNavigation();
   const route = useRoute();

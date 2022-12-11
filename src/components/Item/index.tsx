@@ -2,11 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import React from 'react';
 import { Alert } from 'react-native';
+import { useAuth } from '../../context/auth';
 
-import { useTask } from '../../context/list';
 import { DTOCronograma } from '../../dtos/cronograma';
 import { DTOTarefa } from '../../dtos/tarefa';
-import { deleteTask } from '../../services/list';
+import { deleteTask } from '../../services/tasks';
 
 import { Check, Container, DateText, Button, Info, Title } from './styles';
 
@@ -16,7 +16,7 @@ interface ItemProps {
 
 export function Item({ params }: ItemProps) {
   const navigation = useNavigation();
-  const { list, setList, setLoading } = useTask();
+  const { list, setList, setLoading } = useAuth();
 
   const isDone = params.dataConclusao !== null;
 

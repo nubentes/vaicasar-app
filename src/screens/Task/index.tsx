@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import * as Yup from 'yup';
 import { Calendar, DayProps } from '../../components/Calendar';
-import { useTask } from '../../context/list';
+
 import { Props } from '../../routes/app.tasks.routes';
 
 import { Container } from './styles';
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 export function Task({ navigation, route }: Props) {
-  const { list, setList, stores } = useTask();
+  const { list, setList, stores } = useAuth();
   const { task, type } = route.params;
 
   const [title, setTitle] = useState<string>(task?.titulo || '');

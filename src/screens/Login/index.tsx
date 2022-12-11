@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import ToastManager, { Toast } from 'toastify-react-native';
 import { Button } from '../../components/Button';
@@ -11,6 +11,7 @@ import background from '../../assets/background.png';
 
 import { Container, Form } from './styles';
 import { InitialHeader } from '../../components/Header';
+import { useAuth } from '../../context/auth';
 
 const styles = StyleSheet.create({
   input: {
@@ -31,9 +32,11 @@ export function Login() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
+  const { signIn } = useAuth();
+
   const navigation = useNavigation();
 
-  const handleSave = async () => {
+  const handleLogin = async () => {
     try {
       const schema = Yup.object().shape({
         email: Yup.string()
@@ -45,16 +48,11 @@ export function Login() {
 
       await schema.validate({ email, password });
 
-      const userData: DTOPessoa = {
-        email,
-        password,
-      };
-      Toast.success('Login realizado com sucesso!');
-      // setUser(userData);
+      const params = { email, senha: password };
 
-      setTimeout(() => {
-        navigation.navigate('First');
-      }, 2000);
+      await signIn(params);
+
+      Toast.success('Login realizado com sucesso!');
     } catch (error) {
       Toast.error(error.message);
     }
@@ -100,7 +98,7 @@ export function Login() {
               width: '100%',
             },
           ]}
-          onPress={() => handleSave()}
+          onPress={() => handleLogin()}
         />
 
         <Button

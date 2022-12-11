@@ -1,18 +1,20 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { Button } from '../../components/Button';
 import { Counter } from '../../components/Counter';
 import { MainHeader } from '../../components/Header';
 import { Label } from '../../components/Label';
 import { TaskList } from '../../components/TaskList';
 import { useAuth } from '../../context/auth';
-import { useTask } from '../../context/list';
+import { DTOCronograma } from '../../dtos/cronograma';
 import { RootStackParamList } from '../../routes/app.tasks.routes';
+import { getTimeline } from '../../services/timeline';
+import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import { First } from '../First';
 
-import { Container, Title } from './styles';
+import { Container, Loading, Title } from './styles';
 
 const styles = StyleSheet.create({
   buttonStyle: {
@@ -39,56 +41,79 @@ const styles = StyleSheet.create({
   },
 });
 export function Home() {
-  const { list } = useTask();
+  const { list, setList, loading, setLoading } = useAuth();
   const { user } = useAuth();
   const navigation = useNavigation<RootStackParamList>();
 
-  if (user) {
-    let done = 0;
+  let done = 0;
 
-    const handleAdd = () => {
-      navigation.navigate('Tarefa', {
-        task: {},
-        type: 'add',
-      });
-    };
+  const handleAdd = () => {
+    navigation.navigate('Tarefa', {
+      task: {},
+      type: 'add',
+    });
+  };
 
-    if (list) {
-      list?.tarefas?.forEach(element => {
-        if (element.dataConclusao) {
-          done += 1;
-        }
-      });
+  const loadList = async () => {
+    try {
+      const isTimelinePresent: DTOCronograma = await getTimeline(user);
+
+      if (isTimelinePresent) {
+        setList(isTimelinePresent);
+
+        list?.tarefas?.forEach(element => {
+          if (element.dataConclusao) {
+            done += 1;
+          }
+        });
+      }
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
+  };
 
-    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Container>
-          <MainHeader />
-          <Counter />
+  useEffect(() => {
+    loadList();
+  }, []);
 
-          <Title>
-            <Label text="Minhas Tarefas" bigLabel />
+  return (
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <Container>
+        <MainHeader />
+        <Counter />
 
-            <Label
-              text={`${done}/${list?.tarefas?.length || 0}`}
-              style={styles.counter}
-            />
-          </Title>
+        <Title>
+          <Label text="Minhas Tarefas" bigLabel />
 
-          <Button
-            buttonStyle={styles.buttonStyle}
-            textStyle={styles.textStyle}
-            iconStyle={styles.icon}
-            icon={{ name: 'plus', color: theme.button.background.primary }}
-            text="Adicionar nova tarefa"
-            onPress={() => handleAdd()}
+          <Label
+            text={`${done}/${list?.tarefas?.length || 0}`}
+            style={styles.counter}
           />
+        </Title>
 
+        <Button
+          buttonStyle={styles.buttonStyle}
+          textStyle={styles.textStyle}
+          iconStyle={styles.icon}
+          icon={{ name: 'plus', color: theme.button.background.primary }}
+          text="Adicionar nova tarefa"
+          onPress={() => handleAdd()}
+        />
+
+        {loading ? (
+          <Loading>
+            <ActivityIndicator size="large" color={colors.pink_red} />
+          </Loading>
+        ) : (
           <TaskList />
-        </Container>
-      </ScrollView>
-    );
-  }
-  return <First />;
+        )}
+      </Container>
+    </ScrollView>
+  );
+
+  // return <First />;
 }
