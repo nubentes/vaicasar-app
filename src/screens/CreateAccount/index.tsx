@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import ToastManager, { Toast } from 'toastify-react-native';
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -9,7 +9,7 @@ import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import background from '../../assets/background.png';
 
-import { Container } from './styles';
+import { Container, Form } from './styles';
 import { InitialHeader } from '../../components/Header';
 import { useAuth } from '../../context/auth';
 import { DTOPessoa } from '../../dtos/pessoa';
@@ -76,81 +76,87 @@ export function CreateAccount() {
 
   return (
     <Container source={background}>
-      <ToastManager duration={2000} style={styles.notification} />
-      <InitialHeader />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ToastManager duration={2000} style={styles.notification} />
+        <InitialHeader />
 
-      <Input
-        value={name}
-        onChangeText={setName}
-        editable
-        icon="mail"
-        placeholder="Nome"
-        placeholderTextColor={colors.greys.regular}
-        containerStyle={styles.input}
-      />
+        <Form>
+          <Input
+            value={name}
+            onChangeText={setName}
+            editable
+            icon="user"
+            placeholder="Nome"
+            placeholderTextColor={colors.greys.regular}
+            containerStyle={styles.input}
+          />
 
-      <Input
-        value={email}
-        onChangeText={setEmail}
-        editable
-        icon="mail"
-        placeholder="Email"
-        placeholderTextColor={colors.greys.regular}
-        containerStyle={styles.input}
-      />
+          <Input
+            value={email}
+            onChangeText={setEmail}
+            editable
+            icon="mail"
+            placeholder="Email"
+            keyboardType="email-address"
+            placeholderTextColor={colors.greys.regular}
+            containerStyle={styles.input}
+          />
 
-      <Input
-        value={phone}
-        onChangeText={setPhone}
-        editable
-        icon="phone"
-        placeholder="Telefone"
-        placeholderTextColor={colors.greys.regular}
-        containerStyle={styles.input}
-      />
+          <Input
+            value={phone}
+            onChangeText={setPhone}
+            editable
+            icon="phone"
+            placeholder="Telefone"
+            placeholderTextColor={colors.greys.regular}
+            containerStyle={styles.input}
+          />
 
-      <Input
-        value={password}
-        onChangeText={setPassword}
-        editable
-        icon="lock"
-        placeholder="Senha"
-        placeholderTextColor={colors.greys.regular}
-        containerStyle={styles.input}
-      />
+          <Input
+            value={password}
+            onChangeText={setPassword}
+            editable
+            icon="lock"
+            placeholder="Senha"
+            placeholderTextColor={colors.greys.regular}
+            containerStyle={styles.input}
+            secureTextEntry
+          />
 
-      <Button
-        saveButton
-        buttonStyle={{ marginTop: 24 }}
-        text="Criar Conta"
-        textStyle={[
-          styles.textStyle,
-          {
-            textAlign: 'center',
-            color: theme.button.text.color.primary,
-            width: '100%',
-          },
-        ]}
-        onPress={() => handleSave()}
-      />
+          <Button
+            saveButton
+            buttonStyle={{ marginTop: 24 }}
+            text="Criar Conta"
+            textStyle={[
+              styles.textStyle,
+              {
+                textAlign: 'center',
+                color: theme.button.text.color.primary,
+                width: '100%',
+              },
+            ]}
+            onPress={() => handleSave()}
+          />
 
-      <Button
-        saveButton
-        buttonStyle={{
-          marginTop: 24,
-          backgroundColor: theme.button.background.secondary,
-        }}
-        text="Voltar"
-        textStyle={[
-          styles.textStyle,
-          {
-            textAlign: 'center',
-            color: theme.button.text.color.secondary,
-            width: '100%',
-          },
-        ]}
-        onPress={() => navigation.goBack()}
-      />
+          <Button
+            saveButton
+            buttonStyle={{
+              marginTop: 24,
+              backgroundColor: theme.button.background.secondary,
+            }}
+            text="Voltar"
+            textStyle={[
+              styles.textStyle,
+              {
+                textAlign: 'center',
+                color: theme.button.text.color.secondary,
+                width: '100%',
+              },
+            ]}
+            onPress={() => navigation.goBack()}
+          />
+        </Form>
+      </ScrollView>
     </Container>
   );
 }

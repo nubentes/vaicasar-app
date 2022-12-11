@@ -1,5 +1,12 @@
-import React from 'react';
-import { KeyboardTypeOptions, StyleSheet, ViewStyle } from 'react-native';
+import React, { Ref } from 'react';
+import {
+  KeyboardTypeOptions,
+  NativeSyntheticEvent,
+  ReturnKeyTypeOptions,
+  StyleSheet,
+  TextInputSubmitEditingEventData,
+  ViewStyle,
+} from 'react-native';
 import theme from '../../styles/theme';
 import { Icon } from '../Icon';
 
@@ -16,6 +23,11 @@ export interface InputProps {
   keyboardType?: KeyboardTypeOptions;
   containerStyle?: ViewStyle;
   secureTextEntry?: boolean;
+  returnKeyType?: ReturnKeyTypeOptions;
+  onSubmitEditing?: (
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ) => void;
+  ref?: Ref<T> | undefined;
 }
 
 const styles = StyleSheet.create({
@@ -37,6 +49,9 @@ export function Input({
   icon,
   keyboardType,
   secureTextEntry,
+  returnKeyType,
+  onSubmitEditing,
+  ref,
 }: InputProps): JSX.Element {
   return (
     <Container style={containerStyle}>
@@ -61,6 +76,9 @@ export function Input({
         placeholderTextColor={placeholderTextColor}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
+        returnKeyType={returnKeyType}
+        onSubmitEditing={onSubmitEditing}
+        ref={ref}
       />
     </Container>
   );

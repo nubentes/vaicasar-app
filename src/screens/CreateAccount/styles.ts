@@ -1,18 +1,12 @@
-import { ImageBackground, Image } from 'react-native';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { ImageBackground, View } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Container = styled(ImageBackground)`
   flex: 1;
 
-  padding: 24px;
+  padding: 0px 24px 0px;
 
-  justify-content: center;
+  justify-content: space-between;
 `;
 
-export const Background = styled(Image).attrs({
-  resizeMode: 'contain',
-})`
-  width: ${RFValue(253)}px;
-  height: ${RFValue(171)}px;
-`;
+export const Form = styled(View)``;

@@ -9,7 +9,7 @@ import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import background from '../../assets/background.png';
 
-import { Container } from './styles';
+import { Container, Form } from './styles';
 import { InitialHeader } from '../../components/Header';
 
 const styles = StyleSheet.create({
@@ -61,12 +61,12 @@ export function Login() {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Container source={background}>
-        <ToastManager duration={2000} style={styles.notification} />
+    <Container source={background}>
+      <ToastManager duration={2000} style={styles.notification} />
 
-        <InitialHeader />
+      <InitialHeader />
 
+      <Form>
         <Input
           value={email}
           onChangeText={setEmail}
@@ -85,6 +85,7 @@ export function Login() {
           placeholder="Senha"
           placeholderTextColor={colors.greys.regular}
           containerStyle={styles.input}
+          secureTextEntry
         />
 
         <Button
@@ -119,7 +120,7 @@ export function Login() {
           ]}
           onPress={() => navigation.navigate('CreateAccount')}
         />
-      </Container>
-    </ScrollView>
+      </Form>
+    </Container>
   );
 }
