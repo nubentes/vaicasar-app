@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-
+import { useAuth } from '../../context/auth';
 import { DTOCategoria } from '../../dtos/categoria';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
@@ -33,7 +33,9 @@ export function Category({ search }: ParamsProps) {
   };
 
   const getResults = (descricao: string) => {
-    const { length } = stores.filter(store => store.categoria === descricao);
+    const { length } = stores.filter(
+      store => store.categoria.descricao === descricao,
+    );
 
     return length > 1 ? (
       <Label text={` ${length} resultados`} style={styles.text} />

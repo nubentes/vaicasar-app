@@ -1,6 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import { useAuth } from '../../context/auth';
 
 import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
@@ -99,7 +100,9 @@ export function Results() {
   };
 
   const getResultBySelectedCategory = () => {
-    const temp = stores.filter(store => store.categoria === descricao);
+    const temp = stores.filter(
+      store => store.categoria.descricao === descricao,
+    );
 
     setResults(temp);
   };

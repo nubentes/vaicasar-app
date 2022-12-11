@@ -28,7 +28,7 @@ export function Counter() {
       <Icon name={icons.heart} color={theme.icon.card.primary} onlyIcon />
       <Wrap>
         <Label
-          text={`${list.diasRestantes} dias` || 'x dias'}
+          text={`${list?.diasRestantes} dias` || 'x dias'}
           style={[
             styles.textStyle,
             { fontSize: theme.card.text.fontSize.bigTitle },

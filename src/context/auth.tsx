@@ -43,7 +43,7 @@ function AuthProvider({ children }: ProviderProps) {
   const [list, setList] = useState<DTOCronograma>();
   const [loading, setLoading] = useState<boolean>(true);
   const [stores, setStores] = useState<DTOLoja[]>(storesData);
-  const [categories, setCategories] = useState(categoriesData);
+  const [categories, setCategories] = useState();
   const [filterItem, setFilterItem] = useState(null);
 
   const key = '@user';
@@ -85,8 +85,6 @@ function AuthProvider({ children }: ProviderProps) {
       await AsyncStorage.removeItem(key);
     } catch (error) {
       throw new Error(error);
-    } finally {
-      console.log(user);
     }
   }
 
