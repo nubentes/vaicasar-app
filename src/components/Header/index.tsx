@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useTheme } from 'styled-components';
 import { useAuth } from '../../context/auth';
-import { personData } from '../../mock/pessoa';
+import Img from '../../assets/logo.svg';
 
 import { Title, Container, Button, Wrap, Column, Avatar } from './styles';
 
@@ -18,7 +18,20 @@ const styles = StyleSheet.create({
   },
 });
 
+export function InitialHeader() {
+  return (
+    <Container
+      style={{
+        justifyContent: 'center',
+      }}
+    >
+      <Img width={250} height={170} />
+    </Container>
+  );
+}
+
 export function MainHeader() {
+  const { user } = useAuth();
   const url = 'https://avatars.githubusercontent.com/u/34238796?v=4';
 
   return (
@@ -26,7 +39,7 @@ export function MainHeader() {
       <Wrap style={styles.customWrap}>
         <Column>
           <Title>Bem vindo</Title>
-          <Title title>{personData.nome}</Title>
+          <Title title>{user.nome}</Title>
         </Column>
         <Avatar source={{ uri: url }} />
       </Wrap>

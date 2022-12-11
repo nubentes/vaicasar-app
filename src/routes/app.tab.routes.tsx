@@ -57,6 +57,7 @@ export function AppTabRoutes() {
           ),
         }}
       />
+
       <Screen
         name="Perfil"
         component={Profile}

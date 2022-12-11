@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
+import * as Yup from 'yup';
+import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
 import { useAuth } from '../../context/auth';
+import { DTOPessoa } from '../../dtos/pessoa';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 
-import { Container } from './styles';
+import { Avatar, Container } from './styles';
 
 const styles = StyleSheet.create({
   input: {
@@ -31,17 +34,50 @@ const styles = StyleSheet.create({
 });
 
 export function Profile() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const [name, setName] = useState(user?.nome || '');
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState(user?.telefone || '');
   const [password, setPassword] = useState(user?.senha || '');
 
+  const url = 'https://avatars.githubusercontent.com/u/34238796?v=4';
+
+  const handleSave = async () => {
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório!'),
+        // email: Yup.string().email('Email é obrigatorio'),
+        // .required('Email obrigatório')
+        // phone: Yup.number().max(11).required('Telefone obrigatório'),
+      });
+
+      await schema.validate({ name });
+
+      const userData: DTOPessoa = {
+        nome: name,
+        email,
+        telefone: user.telefone,
+        senha: user.senha,
+      };
+
+      setUser(userData);
+
+      Alert.alert('Sucesso!', 'Informações foram salvas!');
+    } catch (error) {
+      if (error) {
+        return Alert.alert('Opa!', error.message);
+      }
+      Alert.alert('Erro', 'Tente novamente mais tarde!');
+    }
+  };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
         <Header title="Perfil" />
+
+        <Avatar source={{ uri: url }} />
 
         <Input
           value={name}
@@ -70,6 +106,7 @@ export function Profile() {
           placeholder="Telefone"
           placeholderTextColor={colors.greys.regular}
           containerStyle={styles.input}
+          keyboardType="numeric"
         />
 
         <Input
@@ -81,6 +118,21 @@ export function Profile() {
           placeholderTextColor={colors.greys.regular}
           containerStyle={styles.input}
           secureTextEntry
+        />
+
+        <Button
+          saveButton
+          buttonStyle={{ marginTop: 24 }}
+          text="Salvar"
+          textStyle={[
+            styles.textStyle,
+            {
+              textAlign: 'center',
+              color: theme.button.text.color.primary,
+              width: '100%',
+            },
+          ]}
+          onPress={() => handleSave()}
         />
       </Container>
     </ScrollView>

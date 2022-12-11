@@ -18,10 +18,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <TaskProvider>
-          <StatusBar
-            backgroundColor={theme.container.background}
-            style="dark"
-          />
+          <StatusBar translucent />
 
           <Routes />
         </TaskProvider>
