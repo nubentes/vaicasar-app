@@ -14,7 +14,6 @@ import { DTOUsuario } from '../../dtos/usuario';
 import { DTOCronograma } from '../../dtos/cronograma';
 
 import { tasksData } from '../../mock/tarefas';
-import { DTOPessoa } from '../../dtos/pessoa';
 
 const styles = StyleSheet.create({
   calendarButtonStyle: {
@@ -71,7 +70,7 @@ export function First() {
 
   const handleNavigation = () => {
     if (initialDate !== '00/00/0000') {
-      const updateUser: DTOPessoa = {
+      const updateUser: DTOUsuario = {
         nome: 'Gabriel Porto',
         telefone: '62 983302921',
         email: 'gmporto@email.com',

@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   storeDescription: {
     fontFamily: FONTS.MANROPE_SEMI_BOLD,
     color: colors.greys.medium,
-    marginRight: 8,
   },
   storeRating: {
     name: 'star',
@@ -44,8 +43,8 @@ interface Item {
 }
 
 export function Favorites() {
-  const { categories, setCategories, stores, setStores } = useAuth();
-  const [favorites, setFavorites] = useState<DTOLoja[]>([]);
+  const { categories, setCategories, stores, favorites, setFavorites } =
+    useAuth();
   const [formattedCategories, setFormattedCategories] = useState<Item[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -69,15 +68,7 @@ export function Favorites() {
   };
 
   const handleFavorite = (item: DTOLoja) => {
-    const temp = stores.map(result => {
-      if (result === item) {
-        result.favorito = !result.favorito;
-        return result;
-      }
-      return result;
-    });
-
-    setStores(temp);
+    setFavorites(state => [...state, item]);
   };
 
   const getIcon = (item: DTOLoja) => {
@@ -97,12 +88,6 @@ export function Favorites() {
         iconButton
       />
     );
-  };
-
-  const getFavorites = () => {
-    const temp = stores.filter(store => store.favorito === true);
-
-    setFavorites(temp);
   };
 
   const getCategories = () => {
@@ -137,6 +122,12 @@ export function Favorites() {
     }
   };
 
+  const getFavorites = () => {
+    const temp = stores?.filter(store => store.favorito === true);
+
+    setFavorites(temp);
+  };
+
   useEffect(() => {
     getFavorites();
     getCategories();
@@ -155,11 +146,11 @@ export function Favorites() {
         />
 
         {favorites
-          .filter(item =>
+          ?.filter(item =>
             selectedCategory === 'Todas'
               ? item
-              : item.categoria.includes(selectedCategory) ||
-                item.categoria.toLowerCase() ===
+              : item.categoria.descricao.includes(selectedCategory) ||
+                item.categoria.descricao.toLowerCase() ===
                   selectedCategory.toLowerCase() ||
                 selectedCategory === '',
           )

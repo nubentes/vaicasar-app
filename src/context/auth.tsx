@@ -9,10 +9,7 @@ import React, {
 import { DTOCategoria } from '../dtos/categoria';
 import { DTOCronograma } from '../dtos/cronograma';
 import { DTOLoja } from '../dtos/loja';
-import { DTOPessoa } from '../dtos/pessoa';
 import { DTOUsuario } from '../dtos/usuario';
-import { categoriesData } from '../mock/categorias';
-import { storesData } from '../mock/lojas';
 import { doLogin, getUser } from '../services/user';
 
 interface ProviderProps {
@@ -20,7 +17,7 @@ interface ProviderProps {
 }
 
 interface AuthProps {
-  user: DTOPessoa;
+  user: DTOUsuario;
   setUser: React.Dispatch<React.SetStateAction<DTOUsuario>>;
   signIn: (params: DTOUsuario) => Promise<void>;
   signOut: () => Promise<void>;
@@ -34,16 +31,19 @@ interface AuthProps {
   setFilterItem: string;
   categories: DTOCategoria[];
   setCategories: (item) => void;
+  favorites: DTOLoja[];
+  setFavorites: (item) => void;
 }
 
 const AuthContext = createContext({} as AuthProps);
 
 function AuthProvider({ children }: ProviderProps) {
-  const [user, setUser] = useState<DTOPessoa>();
+  const [user, setUser] = useState<DTOUsuario>();
   const [list, setList] = useState<DTOCronograma>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [stores, setStores] = useState<DTOLoja[]>(storesData);
-  const [categories, setCategories] = useState();
+  const [stores, setStores] = useState<DTOLoja[]>();
+  const [categories, setCategories] = useState([]);
+  const [favorites, setFavorites] = useState<DTOLoja[]>([]);
   const [filterItem, setFilterItem] = useState(null);
 
   const key = '@user';
@@ -81,31 +81,30 @@ function AuthProvider({ children }: ProviderProps) {
 
   async function signOut() {
     try {
-      setUser({} as DTOPessoa);
+      setUser({} as DTOUsuario);
       await AsyncStorage.removeItem(key);
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  useEffect(() => {
-    async function loadUserData() {
-      try {
-        const value = await AsyncStorage.getItem(key);
+  // useEffect(() => {
+  //   async function loadUserData() {
+  //     try {
+  //       const value = await AsyncStorage.getItem(key);
 
-        if (value) {
-          const userLogged = JSON.parse(value) as DTOPessoa;
+  //       if (value) {
+  //         const userLogged = JSON.parse(value) as DTOUsuario;
 
-          setUser(userLogged);
-        }
-      } catch (e) {
-        throw new Error(e);
-      }
-    }
+  //         setUser(userLogged);
+  //       }
+  //     } catch (e) {
+  //       throw new Error(e);
+  //     }
+  //   }
 
-    loadUserData();
-    console.log(`aqui: ${user?.nome}`);
-  }, []);
+  //   loadUserData();
+  // }, []);
 
   return (
     <AuthContext.Provider
@@ -124,6 +123,8 @@ function AuthProvider({ children }: ProviderProps) {
         setFilterItem,
         categories,
         setCategories,
+        favorites,
+        setFavorites,
       }}
     >
       {children}
@@ -137,7 +138,6 @@ function useAuth() {
   const {
     user,
     setUser,
-
     signIn,
     signOut,
     list,
@@ -150,6 +150,8 @@ function useAuth() {
     setFilterItem,
     categories,
     setCategories,
+    favorites,
+    setFavorites,
   } = context;
 
   return {
@@ -167,6 +169,8 @@ function useAuth() {
     setFilterItem,
     categories,
     setCategories,
+    favorites,
+    setFavorites,
   };
 }
 

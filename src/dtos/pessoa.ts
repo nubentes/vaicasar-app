@@ -1,4 +1,4 @@
-export interface DTOPessoa {
+export interface DTOUsuario {
   email: string;
   senha: string;
   nome: string;

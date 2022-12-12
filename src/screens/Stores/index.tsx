@@ -76,6 +76,15 @@ export function Stores() {
 
       const storesList = await getStores(user);
 
+      storesList.map(store => {
+        const newStore = {
+          favorito: false,
+          ...store,
+        };
+
+        return newStore;
+      });
+
       setStores(storesList);
       setCategories(categoriesList);
     } catch (error) {

@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
+import ToastManager, { Toast } from 'toastify-react-native';
 import { Button } from '../../components/Button';
 import { Counter } from '../../components/Counter';
 import { MainHeader } from '../../components/Header';
@@ -9,11 +10,11 @@ import { Label } from '../../components/Label';
 import { TaskList } from '../../components/TaskList';
 import { useAuth } from '../../context/auth';
 import { DTOCronograma } from '../../dtos/cronograma';
-import { DTOTarefa } from '../../dtos/tarefa';
 import { RootStackParamList } from '../../routes/app.tasks.routes';
 import { getTimeline } from '../../services/timeline';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
+
 import { First } from '../First';
 
 import { Container, Loading, Title } from './styles';
@@ -41,6 +42,11 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: theme.button.border.primary,
   },
+
+  notification: {
+    width: 327,
+    height: 56,
+  },
 });
 export function Home() {
   const { list, setList, loading, setLoading } = useAuth();
@@ -56,7 +62,7 @@ export function Home() {
     });
   };
 
-  const loadList = async () => {
+  const loadList = useCallback(async () => {
     try {
       const isTimelinePresent: DTOCronograma = await getTimeline(user);
 
@@ -71,7 +77,7 @@ export function Home() {
           .reverse()
           .join('/');
 
-        const formatDates = isTimelinePresent.tarefas.map((item: DTOTarefa) => {
+        const formatDates = isTimelinePresent.tarefas.map(item => {
           const formattedDate: string = item.dataPrevista
             ? moment(item.dataPrevista).format('L')
             : moment().format('L');
@@ -88,35 +94,39 @@ export function Home() {
         });
 
         const formatList: DTOCronograma = {
-          id_cronograma: isTimelinePresent.id_cronograma,
+          id_cronograma: isTimelinePresent.id,
           dataPrevista: convertDate,
           tarefas: formatDates,
           diasRestantes: time,
         };
         setList(formatList);
-
-        list?.tarefas?.forEach(element => {
-          if (element.dataConclusao) {
-            done += 1;
-          }
-        });
       }
     } catch (error) {
-      throw new Error(error);
+      Toast.error(error.message);
     } finally {
+      list?.tarefas?.forEach(element => {
+        if (element.dataConclusao) {
+          done += 1;
+        }
+      });
+
       setTimeout(() => {
         setLoading(false);
       }, 1000);
     }
-  };
+  }, [loading]);
 
   useEffect(() => {
-    loadList();
-  }, []);
+    if (loading) {
+      loadList();
+    }
+  }, [loading]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
+        <ToastManager duration={2000} style={styles.notification} />
+
         <MainHeader />
         <Counter />
 

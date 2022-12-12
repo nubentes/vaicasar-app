@@ -9,7 +9,7 @@ import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
 import { FONTS, SIZES } from '../../styles/fonts';
 
-import { Container, Image, Info, Rating, SubHeader, Wrap } from './styles';
+import { Container, Image, Rating, SubHeader, Wrap } from './styles';
 
 interface LojaProps {
   item: DTOLoja;
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginTop: 24,
     backgroundColor: colors.greys.very_light,
+    justifyContent: 'flex-start',
   },
   ratingIcon: {
     name: 'star',
@@ -56,14 +57,14 @@ export function Store() {
 
         <Image
           source={{
-            uri: item.img,
+            uri: item?.urlFotoPerfil,
           }}
         />
 
         <SubHeader>
           <Wrap>
             <Label bigLabel text={item?.nome} />
-            <Label text={item?.descricao} style={styles.textDescriptionStyle} />
+            <Label text={item?.telefone} style={styles.textDescriptionStyle} />
           </Wrap>
 
           <Rating>
@@ -77,19 +78,19 @@ export function Store() {
         </SubHeader>
 
         <Button
-          text="Rua panamá, Setor Ponta Sul"
+          text={`${item?.endereco?.rua}`}
           buttonStyle={styles.buttonStyle}
           icon={styles.locationIcon}
         />
 
         <Button
-          text="+55 (62) 9 1234-5678"
+          text={item?.telefone}
           buttonStyle={styles.buttonStyle}
           icon={styles.phoneIcon}
         />
 
         <Button
-          text={item.sobre}
+          text={item?.descricao}
           buttonStyle={[styles.buttonStyle, { height: 130 }]}
           textStyle={[styles.textAboutStyle, { padding: 16 }]}
         />

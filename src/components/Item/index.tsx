@@ -10,13 +10,11 @@ import { deleteTask } from '../../services/tasks';
 
 import { Check, Container, DateText, Button, Info, Title } from './styles';
 
-interface ItemProps {
-  params: DTOTarefa;
-}
-
-export function Item({ params }: ItemProps) {
+export function Item({ params }) {
   const navigation = useNavigation();
-  const { list, setList, setLoading } = useAuth();
+  const { list, setList, user, setLoading } = useAuth();
+
+  const { id } = params;
 
   const isDone = params.dataConclusao !== null;
 
@@ -64,23 +62,22 @@ export function Item({ params }: ItemProps) {
     setList(newList);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = () => {
     try {
       Alert.alert('Aviso', 'Tem certeza que deseja deletar? ', [
         {
           text: 'Sim',
-          onPress: () => {
-            const temp = list.tarefas.filter(tarefa => tarefa.id !== id);
-
-            const newList: DTOCronograma = {
-              id_cronograma: list.id_cronograma,
-              dataPrevista: list.dataPrevista,
-              tarefas: temp,
+          onPress: async () => {
+            const paramsDelete = {
+              id,
+              token: user.token,
             };
 
-            setList(newList);
+            await deleteTask(paramsDelete);
 
             Alert.alert('Sucesso!', 'Item deletado com sucesso!');
+
+            setLoading(true);
           },
         },
         {

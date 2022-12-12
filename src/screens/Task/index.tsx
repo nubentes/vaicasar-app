@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 
 import * as Yup from 'yup';
+import ToastManager, { Toast } from 'toastify-react-native';
 import { Calendar, DayProps } from '../../components/Calendar';
 
 import { Props } from '../../routes/app.tasks.routes';
 
 import { Container } from './styles';
 import { Input } from '../../components/Input';
-import { DTOCronograma } from '../../dtos/cronograma';
 import { Button } from '../../components/Button';
 import theme from '../../styles/theme';
 import colors from '../../styles/colors';
@@ -18,7 +18,8 @@ import { DropDown } from '../../components/DropDown';
 import icons from '../../utils/icons';
 import { DTOTarefa } from '../../dtos/tarefa';
 import { Header } from '../../components/Header';
-import { DTOLoja } from '../../dtos/loja';
+import { useAuth } from '../../context/auth';
+import { createTask, editTask } from '../../services/tasks';
 
 const styles = StyleSheet.create({
   input: {
@@ -40,10 +41,14 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: theme.button.border.primary,
   },
+  notification: {
+    width: 327,
+    height: 56,
+  },
 });
 
 export function Task({ navigation, route }: Props) {
-  const { list, setList, stores } = useAuth();
+  const { list, user, setLoading } = useAuth();
   const { task, type } = route.params;
 
   const [title, setTitle] = useState<string>(task?.titulo || '');
@@ -66,9 +71,8 @@ export function Task({ navigation, route }: Props) {
       const schema = Yup.object().shape({
         title: Yup.string().required('Título obrigatório!'),
         value: Yup.number()
-          .optional()
-          .typeError('Informe valor numérico!')
-          .positive('Valor deve ser maior que zero!'),
+          .positive('Valor deve ser maior que zero!')
+          .nullable(),
       });
 
       await schema.validate({ title, value });
@@ -76,66 +80,53 @@ export function Task({ navigation, route }: Props) {
       switch (type) {
         case 'add':
           const newElement: DTOTarefa = {
-            id: task.id,
-            titulo: title,
-            dataPrevista: scheduledDate,
-            dataConclusao: null,
-            loja: store,
-            descricao: description,
-            finished: false,
-            valor: value,
+            idCronograma: list.id_cronograma,
+            tarefa: {
+              titulo: title,
+              dataPrevista: scheduledDate.dateString
+                .split('/')
+                .reverse()
+                .join('-'),
+              descricao: description,
+            },
           };
 
-          const tempList = [...list.tarefas];
-
-          tempList.push(newElement);
-
-          const newList: DTOCronograma = {
-            id: list.id,
-            dataPrevista: list.dataPrevista,
-            tarefas: tempList,
-          };
-
-          setList(newList);
+          await createTask(newElement, user.token);
+          Toast.success('Criado com sucesso!');
 
           break;
 
         case 'edit':
-          const temp = list.tarefas.map(item => {
-            if (item.id === task.id) {
-              item.titulo = title;
-              item.dataPrevista = scheduledDate;
-              item.descricao = description;
-              item.valor = value;
-
-              return item;
-            }
-
-            return item;
-          });
-
-          const updatedList: DTOCronograma = {
-            id: list.id,
-            dataPrevista: list.dataPrevista,
-            tarefas: temp,
+          const element: DTOTarefa = {
+            idCronograma: list.id_cronograma,
+            tarefa: {
+              id: task.id,
+              titulo: title,
+              dataPrevista: scheduledDate.dateString
+                .split('/')
+                .reverse()
+                .join('-'),
+              descricao: description,
+              valor: value,
+            },
           };
 
-          setList(updatedList);
+          await editTask(element, user.token);
+
+          Toast.success('Alterado com sucesso!');
+
           break;
         default:
           break;
       }
 
-      Alert.alert('Sucesso!', 'Informações foram salvas!');
-
       setTimeout(() => {
         navigation.goBack();
-      }, 1000);
+      }, 2000);
     } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        return Alert.alert('Opa!', error.message);
-      }
-      Alert.alert('Erro', 'Tente novamente mais tarde!');
+      Toast.error(error);
+    } finally {
+      setLoading(true);
     }
   };
 
@@ -153,28 +144,11 @@ export function Task({ navigation, route }: Props) {
     .reverse()
     .join('-');
 
-  const getFavorites = () => {
-    const temp = stores.filter(s => s.favorito === true);
-
-    const convert = temp.map(i => {
-      const convertedItem = {
-        label: i.nome,
-        value: i.nome,
-      };
-
-      return convertedItem;
-    });
-
-    setFavorites(convert);
-  };
-
-  useEffect(() => {
-    getFavorites();
-  }, [stores]);
-
   return (
     <ScrollView>
       <Container>
+        <ToastManager duration={2000} style={styles.notification} />
+
         <Header title="Tarefa" />
 
         <Input

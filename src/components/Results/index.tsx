@@ -5,7 +5,7 @@ import { useAuth } from '../../context/auth';
 
 import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
-import { FONTS } from '../../styles/fonts';
+import { FONTS, SIZES } from '../../styles/fonts';
 import theme from '../../styles/theme';
 import { Header } from '../Header';
 import { Icon } from '../Icon';
@@ -137,7 +137,7 @@ export function Results() {
             )
             .map((item: DTOLoja) => (
               <Card
-                key={item.nome}
+                key={item.id}
                 onPress={() => navigation.navigate('Loja', { item })}
               >
                 <Wrap>

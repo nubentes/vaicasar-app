@@ -6,7 +6,7 @@ import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
 import { useAuth } from '../../context/auth';
-import { DTOPessoa } from '../../dtos/pessoa';
+import { DTOUsuario } from '../../dtos/pessoa';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import { Avatar, Container } from './styles';
@@ -59,7 +59,7 @@ export function Profile() {
 
       await schema.validate({ name });
 
-      const userData: DTOPessoa = {
+      const userData: DTOUsuario = {
         nome: name,
         email,
         telefone: user.telefone,
