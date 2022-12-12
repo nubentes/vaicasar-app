@@ -10,6 +10,7 @@ import { DTOUsuario } from '../../dtos/pessoa';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 import { Avatar, Container } from './styles';
+import { url } from '../../constants/image';
 
 const styles = StyleSheet.create({
   input: {
@@ -44,9 +45,6 @@ export function Profile() {
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState(user?.telefone || '');
   const [password, setPassword] = useState(user?.senha || '');
-
-  const url =
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png';
 
   const handleSave = async () => {
     try {

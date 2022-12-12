@@ -3,6 +3,7 @@ import moment from 'moment';
 import React, { useEffect, useCallback } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import ToastManager, { Toast } from 'toastify-react-native';
+import { LoadingIndicator } from '../../components/ActivityIndicator/indexs';
 import { Button } from '../../components/Button';
 import { Counter } from '../../components/Counter';
 import { MainHeader } from '../../components/Header';
@@ -15,7 +16,7 @@ import { getTimeline } from '../../services/timeline';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 
-import { Container, Loading, Title } from './styles';
+import { Container, Title } from './styles';
 
 const styles = StyleSheet.create({
   buttonStyle: {
@@ -64,41 +65,40 @@ export function Home() {
     try {
       const isTimelinePresent: DTOCronograma = await getTimeline(user);
 
-      if (isTimelinePresent) {
-        const v1 = moment();
-        const v2 = moment(isTimelinePresent.dataPrevista);
+      const v1 = moment();
+      const v2 = moment(isTimelinePresent.dataPrevista);
 
-        const time = v2.diff(v1, 'days');
+      const time = v2.diff(v1, 'days');
 
-        const convertDate = isTimelinePresent.dataPrevista
-          .split('-')
-          .reverse()
-          .join('/');
+      const convertDate = isTimelinePresent.dataPrevista
+        .split('-')
+        .reverse()
+        .join('/');
 
-        const formatDates = isTimelinePresent.tarefas.map(item => {
-          const formattedDate: string = item.dataPrevista
-            ? moment(item.dataPrevista).format('L')
-            : moment().format('L');
+      const formatDates = isTimelinePresent.tarefas.map(item => {
+        const formattedDate: string = item.dataPrevista
+          ? moment(item.dataPrevista).format('L')
+          : moment().format('L');
 
-          item.dataPrevista = {
-            dateString: formattedDate,
-            day: Number(moment(item.dataPrevista).format('D')),
-            month: Number(moment(item.dataPrevista).format('M')),
-            year: Number(moment(item.dataPrevista).format('Y')),
-            timestamp: Number(moment(item.dataPrevista).unix()),
-          };
-
-          return item;
-        });
-
-        const formatList: DTOCronograma = {
-          id_cronograma: isTimelinePresent.id,
-          dataPrevista: convertDate,
-          tarefas: formatDates,
-          diasRestantes: time,
+        item.dataPrevista = {
+          dateString: formattedDate,
+          day: Number(moment(item.dataPrevista).format('D')),
+          month: Number(moment(item.dataPrevista).format('M')),
+          year: Number(moment(item.dataPrevista).format('Y')),
+          timestamp: Number(moment(item.dataPrevista).unix()),
         };
-        setList(formatList);
-      }
+
+        return item;
+      });
+
+      const formatList: DTOCronograma = {
+        id_cronograma: isTimelinePresent.id,
+        dataPrevista: convertDate,
+        tarefas: formatDates,
+        diasRestantes: time,
+      };
+
+      setList(formatList);
     } catch (error) {
       Toast.error(error.message);
     } finally {
@@ -108,9 +108,7 @@ export function Home() {
         }
       });
 
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setLoading(false);
     }
   }, [loading]);
 
@@ -118,42 +116,48 @@ export function Home() {
     if (loading) {
       loadList();
     }
-  }, [loading]);
+  }, [loadList, loading]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Container>
-        <ToastManager duration={2000} style={styles.notification} />
+    <>
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Container>
+            <ToastManager duration={2000} style={styles.notification} />
 
-        <MainHeader />
-        <Counter />
+            <MainHeader />
+            <Counter />
 
-        <Title>
-          <Label text="Minhas Tarefas" bigLabel />
+            <Title>
+              <Label text="Minhas Tarefas" bigLabel />
 
-          <Label
-            text={`${done}/${list?.tarefas?.length || 0}`}
-            style={styles.counter}
-          />
-        </Title>
+              <Label
+                text={`${done}/${list?.tarefas?.length || 0}`}
+                style={styles.counter}
+              />
+            </Title>
 
-        <Button
-          buttonStyle={styles.buttonStyle}
-          textStyle={styles.textStyle}
-          iconStyle={styles.icon}
-          icon={{ name: 'plus', color: theme.button.background.primary }}
-          text="Adicionar nova tarefa"
-          onPress={() => handleAdd()}
-        />
+            <Button
+              buttonStyle={styles.buttonStyle}
+              textStyle={styles.textStyle}
+              iconStyle={styles.icon}
+              icon={{ name: 'plus', color: theme.button.background.primary }}
+              text="Adicionar nova tarefa"
+              onPress={() => handleAdd()}
+            />
 
-        {loading ? (
-          <Loading>
-            <ActivityIndicator size="large" color={colors.pink_red} />
-          </Loading>
-        ) : (
-          <TaskList />
-        )}
-      </Container>
-    </ScrollView>
+            {loading ? (
+              <Loading>
+                <ActivityIndicator size="large" color={colors.pink_red} />
+              </Loading>
+            ) : (
+              <TaskList />
+            )}
+          </Container>
+        </ScrollView>
+      )}
+    </>
   );
 }

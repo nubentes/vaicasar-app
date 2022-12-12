@@ -68,9 +68,7 @@ export function CreateAccount() {
       if (data) {
         Toast.success('Conta criada com sucesso!');
 
-        setTimeout(() => {
-          navigation.navigate('First', { data });
-        }, 2000);
+        navigation.navigate('First', { data });
       }
     } catch (error) {
       Toast.error(error.message);

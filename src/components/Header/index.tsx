@@ -2,13 +2,13 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import { useTheme } from 'styled-components';
-import ToastManager, { Toast } from 'toastify-react-native';
 import { useAuth } from '../../context/auth';
 import Img from '../../assets/logo.svg';
 
 import { Title, Container, Button, Wrap, Column, Avatar } from './styles';
 
 import { Icon } from '../Icon';
+import { url } from '../../constants/image';
 
 interface HeaderProps {
   title?: string;
@@ -34,7 +34,6 @@ export function InitialHeader() {
 
 export function MainHeader() {
   const { user } = useAuth();
-  const url = 'https://avatars.githubusercontent.com/u/34238796?v=4';
 
   return (
     <Container>
@@ -72,8 +71,6 @@ export function Header({ title }: HeaderProps) {
   if (user) {
     return (
       <Container>
-        <ToastManager duration={2000} style={{ width: 327, height: 56 }} />
-
         {title === 'Perfil' ? (
           <Wrap style={{ justifyContent: 'space-between' }}>
             <Wrap>

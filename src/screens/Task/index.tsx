@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 
@@ -68,7 +68,6 @@ export function Task({ navigation, route }: Props) {
   const [favorites, setFavorites] = useState();
 
   const handleSave = async () => {
-    console.log(selectedStore);
     try {
       const schema = Yup.object().shape({
         title: Yup.string().required('Título obrigatório!'),
@@ -114,7 +113,6 @@ export function Task({ navigation, route }: Props) {
           };
 
           await editTask(element, user.token);
-
           Toast.success('Alterado com sucesso!');
 
           break;
@@ -123,12 +121,11 @@ export function Task({ navigation, route }: Props) {
       }
 
       setTimeout(() => {
+        setLoading(true);
         navigation.goBack();
       }, 2000);
     } catch (error) {
       Toast.error(error);
-    } finally {
-      setLoading(true);
     }
   };
 
@@ -170,7 +167,7 @@ export function Task({ navigation, route }: Props) {
   return (
     <ScrollView>
       <Container>
-        <ToastManager duration={2000} style={styles.notification} />
+        <ToastManager duration={1500} style={styles.notification} />
 
         <Header title="Tarefa" />
 

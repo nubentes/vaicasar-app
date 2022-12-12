@@ -51,8 +51,6 @@ export function Login() {
       const params = { email, senha: password };
 
       await signIn(params);
-
-      Toast.success('Login realizado com sucesso!');
     } catch (error) {
       Toast.error('Conta não existe');
     }

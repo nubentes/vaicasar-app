@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import ToastManager, { Toast } from 'toastify-react-native';
+import { LoadingIndicator } from '../../components/ActivityIndicator/indexs';
 import { Category } from '../../components/Category';
 import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
@@ -21,7 +22,8 @@ const styles = StyleSheet.create({
 
 export function Stores() {
   const [search, setSearch] = useState('');
-  const { categories, setStores, user, setCategories, setLoading } = useAuth();
+  const { categories, setStores, user, loading, setCategories, setLoading } =
+    useAuth();
 
   const handleCategoryList = () => {
     return <Category search={search} />;
@@ -70,7 +72,7 @@ export function Stores() {
     );
   };
 
-  const loadCategories = async () => {
+  const loadCategories = useCallback(async () => {
     try {
       const categoriesList = await getCategories(user);
 
@@ -89,20 +91,24 @@ export function Stores() {
       setCategories(categoriesList);
     } catch (error) {
       Toast.error(error.message);
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
     }
-  };
+  }, [loading]);
 
   useEffect(() => {
-    loadCategories();
-  }, []);
+    if (!loading) {
+      loadCategories();
+    }
+  }, [loadCategories, loading]);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {!categories ? noCategories() : showCategoryList()}
-    </ScrollView>
+    <>
+      {categories.length === 0 ? (
+        <LoadingIndicator />
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {!categories ? noCategories() : showCategoryList()}
+        </ScrollView>
+      )}
+    </>
   );
 }

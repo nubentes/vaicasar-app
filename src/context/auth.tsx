@@ -1,11 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useEffect,
-} from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { DTOCategoria } from '../dtos/categoria';
 import { DTOCronograma } from '../dtos/cronograma';
 import { DTOLoja } from '../dtos/loja';
@@ -46,7 +40,7 @@ function AuthProvider({ children }: ProviderProps) {
   const [favorites, setFavorites] = useState<DTOLoja[]>([]);
   const [filterItem, setFilterItem] = useState(null);
 
-  const key = '@user';
+  // const key = '@user';
 
   async function signIn(params: DTOUsuario) {
     try {
@@ -67,11 +61,7 @@ function AuthProvider({ children }: ProviderProps) {
         telefone,
       };
 
-      await AsyncStorage.setItem(key, JSON.stringify(userData));
-
-      setTimeout(() => {
-        setUser(userData);
-      }, 2000);
+      setUser(userData);
 
       return data;
     } catch (error) {
@@ -82,29 +72,11 @@ function AuthProvider({ children }: ProviderProps) {
   async function signOut() {
     try {
       setUser({} as DTOUsuario);
-      await AsyncStorage.removeItem(key);
+      // await AsyncStorage.removeItem(key);
     } catch (error) {
       throw new Error(error);
     }
   }
-
-  // useEffect(() => {
-  //   async function loadUserData() {
-  //     try {
-  //       const value = await AsyncStorage.getItem(key);
-
-  //       if (value) {
-  //         const userLogged = JSON.parse(value) as DTOUsuario;
-
-  //         setUser(userLogged);
-  //       }
-  //     } catch (e) {
-  //       throw new Error(e);
-  //     }
-  //   }
-
-  //   loadUserData();
-  // }, []);
 
   return (
     <AuthContext.Provider

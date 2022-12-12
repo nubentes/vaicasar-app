@@ -5,8 +5,9 @@ import { useAuth } from '../../context/auth';
 
 import { DTOLoja } from '../../dtos/loja';
 import colors from '../../styles/colors';
-import { FONTS, SIZES } from '../../styles/fonts';
+import { FONTS } from '../../styles/fonts';
 import theme from '../../styles/theme';
+import { LoadingIndicator } from '../ActivityIndicator/indexs';
 import { Header } from '../Header';
 import { Icon } from '../Icon';
 import { Input } from '../Input';
@@ -49,6 +50,8 @@ export function Results() {
   const navigation = useNavigation();
   const route = useRoute();
 
+  let icon = 'heart';
+
   const { descricao } = route.params as ParamsProps;
 
   const storeRating = () => {
@@ -69,35 +72,17 @@ export function Results() {
   };
 
   const handleFavorite = (item: DTOLoja) => {
-    const temp = stores.map(result => {
-      if (result === item) {
-        result.favorito = !result.favorito;
-        return result;
-      }
-      return result;
-    });
+    icon = item.favorito ? 'heart-o' : 'heart';
 
-    setStores(temp);
-  };
+    return icon;
+    // const temp = stores.map(result => {
+    //   const r =
+    //     result.favorito === item.favorito ? result.favorito : item.favorito;
 
-  const getIcon = (item: DTOLoja) => {
-    if (item.favorito) {
-      return (
-        <Icon
-          name={styles.favoriteButtonIcon.name}
-          color={styles.favoriteButtonIcon.color}
-          iconButton
-        />
-      );
-    }
+    //   return r;
+    // });
 
-    return (
-      <Icon
-        name={styles.notFavoriteButtonIcon.name}
-        color={styles.notFavoriteButtonIcon.color}
-        iconButton
-      />
-    );
+    // setStores(temp);
   };
 
   const getResultBySelectedCategory = () => {
@@ -109,59 +94,71 @@ export function Results() {
   };
 
   useEffect(() => {
-    getResultBySelectedCategory();
-  }, [stores]);
+    if (stores.length > 0) {
+      getResultBySelectedCategory();
+    }
+  }, []);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Container>
-        <Header title="Buscar" />
+    <>
+      {stores.length === 0 ? (
+        <LoadingIndicator />
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Container>
+            <Header title="Buscar" />
 
-        <Input
-          value={search}
-          onChangeText={setSearch}
-          editable
-          icon="search"
-          placeholder="Busca"
-          containerStyle={{ paddingBottom: 24 }}
-        />
+            <Input
+              value={search}
+              onChangeText={setSearch}
+              editable
+              icon="search"
+              placeholder="Busca"
+              containerStyle={{ paddingBottom: 24 }}
+            />
 
-        <>
-          <Label text={descricao} bigLabel />
+            <>
+              <Label text={descricao} bigLabel />
 
-          {results
-            .filter(
-              item =>
-                item.nome.includes(search) ||
-                item.nome.toLowerCase() === search.toLowerCase() ||
-                search === '',
-            )
-            .map((item: DTOLoja) => (
-              <Card
-                key={item.id}
-                onPress={() => navigation.navigate('Loja', { item })}
-              >
-                <Wrap>
-                  <Label text={item.nome} style={styles.storeTitle} />
-                  <Label
-                    text={item.descricao}
-                    style={styles.storeDescription}
-                  />
-                  <RatingContainer>
-                    <Label
-                      text={item.avaliacao.toFixed(1).toString()}
-                      style={styles.storeDescription}
-                    />
-                    {storeRating()}
-                  </RatingContainer>
-                </Wrap>
-                <Button onPress={() => handleFavorite(item)}>
-                  {getIcon(item)}
-                </Button>
-              </Card>
-            ))}
-        </>
-      </Container>
-    </ScrollView>
+              {results
+                .filter(
+                  item =>
+                    item.nome.includes(search) ||
+                    item.nome.toLowerCase() === search.toLowerCase() ||
+                    search === '',
+                )
+                .map((item: DTOLoja) => (
+                  <Card
+                    key={item.id}
+                    onPress={() => navigation.navigate('Loja', { item })}
+                  >
+                    <Wrap>
+                      <Label text={item.nome} style={styles.storeTitle} />
+                      <Label
+                        text={item.descricao}
+                        style={styles.storeDescription}
+                      />
+                      <RatingContainer>
+                        <Label
+                          text={item.avaliacao.toFixed(1).toString()}
+                          style={styles.storeDescription}
+                        />
+                        {storeRating()}
+                      </RatingContainer>
+                    </Wrap>
+                    <Button onPress={() => handleFavorite(item)}>
+                      <Icon
+                        name={icon}
+                        color={styles.notFavoriteButtonIcon.color}
+                        iconButton
+                      />
+                    </Button>
+                  </Card>
+                ))}
+            </>
+          </Container>
+        </ScrollView>
+      )}
+    </>
   );
 }

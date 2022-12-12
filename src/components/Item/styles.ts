@@ -2,6 +2,7 @@ import { TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/Feather';
 import styled from 'styled-components/native';
+import { SIZES } from '../../styles/fonts';
 
 interface Props {
   check: boolean;
@@ -9,12 +10,12 @@ interface Props {
 
 export const Container = styled(TouchableOpacity)<Props>`
   width: 100%;
-  height: ${RFValue(71)}px;
+  height: ${RFValue(90)}px;
 
   align-self: center;
   align-items: center;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   margin: 8px;
 
@@ -28,13 +29,14 @@ export const Container = styled(TouchableOpacity)<Props>`
 `;
 
 export const Info = styled.View`
+  width: 50%;
   flex-direction: column;
-  padding: 24px;
 `;
 
 export const Title = styled.Text<Props>`
   font-family: ${({ theme }) => theme.card.text.fontFamily.bold};
-  font-size: ${({ theme }) => theme.card.text.fontSize.title}px;
+  font-size: ${SIZES.MEDIUM}px;
+  text-align: left;
 
   color: ${({ theme, check }) =>
     check ? theme.card.text.color.white : theme.card.text.color.grey_dark};

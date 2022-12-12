@@ -23,12 +23,16 @@ const styles = StyleSheet.create({
 export function Counter() {
   const { list } = useAuth();
 
+  const leftDays = () => {
+    return list?.diasRestantes < 0 ? '1 dia' : `${list?.diasRestantes} dias`;
+  };
+
   return (
     <Container>
       <Icon name={icons.heart} color={theme.icon.card.primary} onlyIcon />
       <Wrap>
         <Label
-          text={`${list?.diasRestantes} dias` || 'x dias'}
+          text={`${leftDays()}`}
           style={[
             styles.textStyle,
             { fontSize: theme.card.text.fontSize.bigTitle },
