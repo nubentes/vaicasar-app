@@ -15,8 +15,6 @@ import { getTimeline } from '../../services/timeline';
 import colors from '../../styles/colors';
 import theme from '../../styles/theme';
 
-import { First } from '../First';
-
 import { Container, Loading, Title } from './styles';
 
 const styles = StyleSheet.create({
@@ -158,6 +156,4 @@ export function Home() {
       </Container>
     </ScrollView>
   );
-
-  // return <First />;
 }

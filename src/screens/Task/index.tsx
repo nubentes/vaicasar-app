@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import moment from 'moment';
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 });
 
 export function Task({ navigation, route }: Props) {
-  const { list, user, setLoading } = useAuth();
+  const { list, user, stores, setLoading } = useAuth();
   const { task, type } = route.params;
 
   const [title, setTitle] = useState<string>(task?.titulo || '');
@@ -64,9 +64,11 @@ export function Task({ navigation, route }: Props) {
   const [value, setValue] = useState(task?.valor);
   const [description, setDescription] = useState<string>(task?.descricao || '');
   const [modalVisible, setModalVisible] = useState(false);
-  const [favorites, setFavorites] = useState([]);
+  const [selectedStore, setSelectedStore] = useState();
+  const [favorites, setFavorites] = useState();
 
   const handleSave = async () => {
+    console.log(selectedStore);
     try {
       const schema = Yup.object().shape({
         title: Yup.string().required('Título obrigatório!'),
@@ -144,6 +146,27 @@ export function Task({ navigation, route }: Props) {
     .reverse()
     .join('-');
 
+  const getFavorites = () => {
+    const temp = stores?.filter(s => s.favorito === true);
+
+    const convert = temp?.map(i => {
+      const convertedItem = {
+        label: i.nome,
+        value: i.nome,
+      };
+
+      return convertedItem;
+    });
+
+    setFavorites(convert);
+  };
+
+  useEffect(() => {
+    if (!favorites) {
+      getFavorites();
+    }
+  }, []);
+
   return (
     <ScrollView>
       <Container>
@@ -207,11 +230,15 @@ export function Task({ navigation, route }: Props) {
           />
         </Modal>
 
-        <DropDown
-          state={favorites}
-          setState={() => setFavorites}
-          placeHolder="Loja"
-        />
+        {favorites ? (
+          <DropDown
+            state={favorites}
+            setState={() => setFavorites}
+            placeHolder="Loja"
+            mode="MODAL"
+            onSelectItem={e => setSelectedStore(e)}
+          />
+        ) : null}
 
         <Input
           value={value}

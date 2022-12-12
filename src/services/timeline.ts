@@ -12,4 +12,16 @@ const getTimeline = async (params: DTOUsuario) => {
   return response.data;
 };
 
-export { getTimeline };
+const createTimeline = async (params, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await api.post('/cronograma/criar', params, config);
+
+  return response.data;
+};
+
+export { getTimeline, createTimeline };

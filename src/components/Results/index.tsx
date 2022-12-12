@@ -56,8 +56,9 @@ export function Results() {
 
     return (
       <RatingContainer>
-        {arr.map(() => (
+        {arr.map(item => (
           <Icon
+            key={item.valueOf()}
             name={styles.storeRating.name}
             color={styles.storeRating.color}
             iconButton

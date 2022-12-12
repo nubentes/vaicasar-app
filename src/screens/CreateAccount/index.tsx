@@ -38,8 +38,6 @@ export function CreateAccount() {
 
   const navigation = useNavigation();
 
-  const { setUser } = useAuth();
-
   const handleSave = async () => {
     try {
       const schema = Yup.object().shape({
@@ -47,10 +45,10 @@ export function CreateAccount() {
         email: Yup.string()
           .email('Email inválido')
           .required('Email é obrigatório'),
-        phone: Yup.string()
-          .min(11, 'Número inválido')
-          .max(11, 'Número inválido')
-          .required('Telefone obrigatório'),
+        // phone: Yup.string()
+        //   .min(11, 'Número inválido')
+        //   .max(11, 'Número inválido')
+        //   .required('Telefone obrigatório'),
         password: Yup.string().required('Senha obrigatório'),
       });
 
@@ -68,13 +66,11 @@ export function CreateAccount() {
       Toast.success('Cadastro criado!');
 
       if (data) {
-        console.log(data);
         Toast.success('Conta criada com sucesso!');
-        setUser(data);
 
-        // setTimeout(() => {
-        //   navigation.navigate('First');
-        // }, 2000);
+        setTimeout(() => {
+          navigation.navigate('First', { data });
+        }, 2000);
       }
     } catch (error) {
       Toast.error(error.message);

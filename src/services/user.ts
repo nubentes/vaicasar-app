@@ -8,9 +8,7 @@ const doLogin = async (params: DTOUsuario) => {
 };
 
 const createAccount = async (params: DTOUsuario) => {
-  console.log(`O paramas: ${params.email}`);
-
-  const response = await api.put('/usuario/criar', { params });
+  const response = await api.put('/usuario/criar', params);
 
   return response.data;
 };
