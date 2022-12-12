@@ -45,15 +45,14 @@ export function Profile() {
   const [phone, setPhone] = useState(user?.telefone || '');
   const [password, setPassword] = useState(user?.senha || '');
 
-  const url = 'https://avatars.githubusercontent.com/u/34238796?v=4';
+  const url =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png';
 
   const handleSave = async () => {
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required('Nome obrigatório!'),
-        email: Yup.string()
-          .email('Email inválido')
-          .required('Email obrigatório'),
+        email: Yup.string().required('Email obrigatório'),
         // phone: Yup.number().max(11).required('Telefone obrigatório'),
       });
 

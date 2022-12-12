@@ -54,7 +54,7 @@ export function Login() {
 
       Toast.success('Login realizado com sucesso!');
     } catch (error) {
-      Toast.error(error.message);
+      Toast.error('Conta não existe');
     }
   };
 
