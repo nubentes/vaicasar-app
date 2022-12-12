@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { DTOCategoria } from '../dtos/categoria';
 import { DTOCronograma } from '../dtos/cronograma';
 import { DTOLoja } from '../dtos/loja';
+import { DTOTarefa } from '../dtos/tarefa';
 import { DTOUsuario } from '../dtos/usuario';
 import { doLogin, getUser } from '../services/user';
 
@@ -34,7 +35,7 @@ const AuthContext = createContext({} as AuthProps);
 function AuthProvider({ children }: ProviderProps) {
   const [user, setUser] = useState<DTOUsuario>();
   const [list, setList] = useState<DTOCronograma>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>();
   const [stores, setStores] = useState<DTOLoja[]>();
   const [categories, setCategories] = useState([]);
   const [favorites, setFavorites] = useState<DTOLoja[]>([]);
@@ -46,7 +47,7 @@ function AuthProvider({ children }: ProviderProps) {
     try {
       const data: DTOUsuario = await doLogin(params);
 
-      const { id, email, senha, token } = data;
+      const { id, email, token } = data;
 
       const person: DTOUsuario = await getUser(data);
 
@@ -55,22 +56,25 @@ function AuthProvider({ children }: ProviderProps) {
       const userData = {
         id,
         email,
-        senha,
+        senha: params.senha,
         token,
         nome,
         telefone,
       };
 
       setUser(userData);
-
-      return data;
     } catch (error) {
       throw new Error(error);
+    } finally {
+      setLoading(true);
     }
   }
 
   async function signOut() {
     try {
+      setStores([] as DTOLoja[]);
+      setList({} as DTOCronograma);
+      setCategories([] as DTOCategoria[]);
       setUser({} as DTOUsuario);
       // await AsyncStorage.removeItem(key);
     } catch (error) {

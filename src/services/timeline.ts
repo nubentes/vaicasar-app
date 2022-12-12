@@ -7,7 +7,7 @@ const getTimeline = async (params: DTOUsuario) => {
       Authorization: `Bearer ${params.token}`,
     },
   };
-  const response = await api.get(`/cronograma/obter?id=${params.id}`, config);
+  const response = await api.get(`/cronograma/usuario?id=${params.id}`, config);
 
   return response.data;
 };

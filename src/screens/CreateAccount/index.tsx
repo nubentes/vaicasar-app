@@ -11,7 +11,6 @@ import background from '../../assets/background.png';
 
 import { Container, Form } from './styles';
 import { InitialHeader } from '../../components/Header';
-import { useAuth } from '../../context/auth';
 import { createAccount } from '../../services/user';
 import { DTOUsuario } from '../../dtos/usuario';
 
@@ -65,10 +64,15 @@ export function CreateAccount() {
 
       Toast.success('Cadastro criado!');
 
+      const newData: DTOUsuario = {
+        ...data,
+        senha: password,
+      };
+
       if (data) {
         Toast.success('Conta criada com sucesso!');
 
-        navigation.navigate('First', { data });
+        navigation.navigate('First', { data: newData });
       }
     } catch (error) {
       Toast.error(error.message);

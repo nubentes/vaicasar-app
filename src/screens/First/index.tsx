@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Calendar, DayProps } from '../../components/Calendar';
 import { Button } from '../../components/Button';
 import { Label } from '../../components/Label';
@@ -59,8 +59,7 @@ export function First() {
 
   const { data } = routes.params;
 
-  const { setUser } = useAuth();
-  const { setList } = useAuth();
+  const { signIn, setLoading } = useAuth();
 
   const onDateChange = (date: DayProps) => {
     const formatted = moment(date.dateString).format('L');
@@ -81,23 +80,11 @@ export function First() {
         dataPrevista: initialDate.split('/').reverse().join('-'),
       };
 
-      const response = await createTimeline(newData, data.token);
+      await createTimeline(newData, data.token);
 
-      if (response) {
-        const person: DTOUsuario = await getUser(data);
-        const { nome, telefone } = person;
+      await signIn(data);
 
-        const userData = {
-          id: data.id,
-          email: data.email,
-          senha: data.senha,
-          token: data.token,
-          nome,
-          telefone,
-        };
-
-        setUser(userData);
-      }
+      setLoading(true);
     }
   };
 
